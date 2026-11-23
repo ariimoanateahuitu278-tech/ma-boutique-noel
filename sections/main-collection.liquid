@@ -1,0 +1,37 @@
+{%- paginate collection.products by 24 -%}
+  <div class="page-hero">
+    <div class="page-width">
+      <span class="eyebrow">Catalogue</span>
+      <h1>{{ collection.title | escape }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="section-intro" style="margin:12px auto 0">{{ collection.description }}</div>
+      {%- else -%}
+        <p class="section-intro" style="margin:12px auto 0">Des cadeaux originaux, choisis avec soin pour les fêtes.</p>
+      {%- endif -%}
+    </div>
+  </div>
+  <section class="section">
+    <div class="page-width">
+      {%- if collection.products.size > 0 -%}
+        <ul class="product-grid" role="list">
+          {%- for p in collection.products -%}
+            <li>{%- if forloop.index <= 3 -%}{%- render 'product-card', card_product: p, loading: 'eager' -%}{%- else -%}{%- render 'product-card', card_product: p -%}{%- endif -%}</li>
+          {%- endfor -%}
+        </ul>
+        {%- if paginate.pages > 1 -%}
+          <nav class="help-links" style="margin-top:32px" aria-label="Pagination">
+            {%- if paginate.previous -%}<a class="btn btn--outline" href="{{ paginate.previous.url }}">← Page précédente</a>{%- endif -%}
+            {%- if paginate.next -%}<a class="btn btn--outline" href="{{ paginate.next.url }}">Page suivante →</a>{%- endif -%}
+          </nav>
+        {%- endif -%}
+      {%- else -%}
+        <p class="section-intro">Aucun produit dans cette catégorie pour le moment.</p>
+        <div class="help-links"><a href="{{ routes.root_url }}" class="btn btn--primary">Retour à l'accueil</a></div>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endpaginate -%}
+
+{% schema %}
+{ "name": "Collection", "settings": [] }
+{% endschema %}

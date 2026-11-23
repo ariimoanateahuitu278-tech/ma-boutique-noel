@@ -1,0 +1,40 @@
+<section class="section" aria-labelledby="StepsTitle-{{ section.id }}">
+  <div class="page-width">
+    <h2 class="section-title" id="StepsTitle-{{ section.id }}">{{ section.settings.title | escape }}</h2>
+    {%- if section.settings.text != blank -%}<p class="section-intro">{{ section.settings.text | escape }}</p>{%- endif -%}
+    <ol class="steps">
+      {%- for block in section.blocks -%}
+        <li class="step" data-reveal {{ block.shopify_attributes }}>
+          <span class="step__num" aria-hidden="true">{{ forloop.index }}</span>
+          <h3>{{ block.settings.title | escape }}</h3>
+          <p>{{ block.settings.text | escape }}</p>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Comment ça marche",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "Comment ça marche" },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Trouver le bon cadeau, c'est simple comme bonjour." }
+  ],
+  "max_blocks": 3,
+  "blocks": [
+    { "type": "step", "name": "Étape", "settings": [
+      { "type": "text", "id": "title", "label": "Titre", "default": "Je choisis" },
+      { "type": "textarea", "id": "text", "label": "Texte" }
+    ] }
+  ],
+  "presets": [{
+    "name": "Comment ça marche",
+    "blocks": [
+      { "type": "step", "settings": { "title": "Je choisis", "text": "Je parcours les idées cadeaux et je trouve celle qui fera plaisir." } },
+      { "type": "step", "settings": { "title": "Je commande", "text": "J'ajoute au panier et je paie en ligne, de façon sécurisée." } },
+      { "type": "step", "settings": { "title": "Je reçois", "text": "Mon colis arrive chez moi, prêt à glisser sous le sapin." } }
+    ]
+  }]
+}
+{% endschema %}

@@ -1,0 +1,31 @@
+{%- capture items -%}
+  {%- for block in section.blocks -%}
+    <span class="marquee__item" {{ block.shopify_attributes }}><span class="marquee__star" aria-hidden="true">★</span>{{ block.settings.text | escape }}</span>
+  {%- endfor -%}
+{%- endcapture -%}
+<div class="marquee" role="region" aria-label="Nos engagements">
+  <div class="marquee__track">
+    <div class="marquee__group">{{ items }}</div>
+    <div class="marquee__group" aria-hidden="true">{{ items }}</div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bandeau défilant",
+  "max_blocks": 8,
+  "blocks": [
+    { "type": "item", "name": "Argument", "settings": [ { "type": "text", "id": "text", "label": "Texte (vrai uniquement)", "default": "Paiement sécurisé" } ] }
+  ],
+  "presets": [{
+    "name": "Bandeau défilant",
+    "blocks": [
+      { "type": "item", "settings": { "text": "Livraison offerte" } },
+      { "type": "item", "settings": { "text": "Retours sous 14 jours" } },
+      { "type": "item", "settings": { "text": "Paiement sécurisé" } },
+      { "type": "item", "settings": { "text": "Service client par e-mail" } },
+      { "type": "item", "settings": { "text": "Des idées cadeaux choisies avec soin" } }
+    ]
+  }]
+}
+{% endschema %}

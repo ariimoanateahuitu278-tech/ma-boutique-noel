@@ -1,0 +1,41 @@
+{%- comment -%}
+  Fonction de rétractation en ligne (directive (UE) 2023/2673, applicable depuis le 19 juin 2026).
+  Le formulaire envoie la demande à l'e-mail de la boutique. Tu dois envoyer toi-même un accusé de réception
+  par e-mail au client, sans tarder (voir le guide). Garde une copie de chaque demande.
+{%- endcomment -%}
+<div class="page-hero"><div class="page-width"><span class="eyebrow">Droit de rétractation</span><h1>Se rétracter du contrat</h1></div></div>
+<section class="section">
+  <div class="page-width" style="max-width:760px">
+    <div class="rte" style="margin-bottom:24px">
+      <p>Tu as changé d'avis ? Tu as <strong>14 jours</strong> à partir de la réception de ta commande pour te rétracter, sans avoir à te justifier.</p>
+      <p>Remplis ce formulaire et clique sur « Confirmer ma rétractation ». On t'envoie ensuite un accusé de réception par e-mail. Renvoie le produit au plus tard 14 jours après ta demande. On te rembourse au plus tard 14 jours après ta demande, avec le même moyen de paiement (on peut attendre d'avoir reçu le produit, ou la preuve de son envoi).</p>
+      {%- if page.content != blank -%}{{ page.content }}{%- endif -%}
+    </div>
+    <div class="box">
+      {%- form 'contact', id: 'WithdrawalForm' -%}
+        <input type="hidden" name="contact[Objet]" value="Rétractation du contrat">
+        {%- if form.posted_successfully? -%}
+          <p class="form-message form-message--success" role="status">C'est noté : ta demande de rétractation est bien envoyée. On t'envoie un accusé de réception par e-mail très vite.</p>
+        {%- endif -%}
+        {%- if form.errors -%}
+          <p class="form-message form-message--error" role="alert">Oups, vérifie les champs : {{ form.errors | default_errors }}</p>
+        {%- endif -%}
+        <div class="form-grid form-grid--2">
+          <div class="field"><label for="WName">Prénom et nom *</label><input id="WName" type="text" name="contact[name]" autocomplete="name" required></div>
+          <div class="field"><label for="WEmail">E-mail utilisé pour la commande *</label><input id="WEmail" type="email" name="contact[email]" autocomplete="email" required></div>
+          <div class="field"><label for="WOrder">Numéro de commande *</label><input id="WOrder" type="text" name="contact[Numéro de commande]" required></div>
+          <div class="field"><label for="WDate">Date de réception</label><input id="WDate" type="date" name="contact[Date de réception]"></div>
+        </div>
+        <div class="form-grid" style="margin-top:14px">
+          <div class="field"><label for="WItems">Produit(s) concerné(s) *</label><input id="WItems" type="text" name="contact[Produits concernés]" required></div>
+          <div class="field"><label for="WBody">Déclaration</label><textarea id="WBody" name="contact[body]">Je vous notifie par la présente ma rétractation du contrat portant sur la vente du ou des produits ci-dessus.</textarea></div>
+        </div>
+        <button type="submit" class="btn btn--primary btn--lg btn--block" style="margin-top:18px">Confirmer ma rétractation</button>
+      {%- endform -%}
+    </div>
+    <p style="margin-top:18px">Tu peux aussi nous écrire directement à : {{ settings.contact_email | default: '[À COMPLÉTER]' | escape }}</p>
+  </div>
+</section>
+{% schema %}
+{ "name": "Rétractation", "settings": [] }
+{% endschema %}

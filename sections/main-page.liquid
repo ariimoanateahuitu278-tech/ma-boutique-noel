@@ -1,0 +1,23 @@
+<div class="page-hero"><div class="page-width"><h1>{{ page.title | escape }}</h1></div></div>
+<section class="section">
+  <div class="page-width">
+    <div class="rte">
+      {{ page.content }}
+      {%- if section.settings.show_withdraw_button -%}
+        <div class="box" style="margin-top:32px;text-align:center">
+          <h2 style="margin-top:0">Tu veux annuler ta commande ?</h2>
+          <p>Tu as 14 jours après réception pour te rétracter, sans avoir à te justifier.</p>
+          <a href="/pages/retractation" class="withdraw-btn withdraw-btn--red">Se rétracter du contrat</a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Contenu de la page",
+  "settings": [
+    { "type": "checkbox", "id": "show_withdraw_button", "label": "Afficher le bouton « Se rétracter du contrat »", "default": false }
+  ]
+}
+{% endschema %}

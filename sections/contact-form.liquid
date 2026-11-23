@@ -1,0 +1,32 @@
+<div class="page-hero"><div class="page-width"><h1>{{ page.title | default: 'Contact' | escape }}</h1></div></div>
+<section class="section">
+  <div class="page-width" style="max-width:760px">
+    {%- if page.content != blank -%}<div class="rte" style="margin-bottom:24px">{{ page.content }}</div>{%- endif -%}
+    <div class="box" style="margin-bottom:24px">
+      <p style="margin:0"><strong>Notre e-mail :</strong> {{ settings.contact_email | default: '[À COMPLÉTER]' | escape }}</p>
+      <p style="margin:6px 0 0">On répond à chaque message par e-mail. Pense à indiquer ton numéro de commande si tu en as un.</p>
+    </div>
+    <div class="box">
+      {%- form 'contact', id: 'ContactForm' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="form-message form-message--success" role="status">Merci ! Ton message est bien parti, on te répond par e-mail.</p>
+        {%- endif -%}
+        {%- if form.errors -%}
+          <p class="form-message form-message--error" role="alert">Oups, vérifie les champs : {{ form.errors | default_errors }}</p>
+        {%- endif -%}
+        <div class="form-grid form-grid--2">
+          <div class="field"><label for="ContactName">Prénom et nom</label><input id="ContactName" type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}"></div>
+          <div class="field"><label for="ContactEmail">E-mail *</label><input id="ContactEmail" type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}"></div>
+        </div>
+        <div class="form-grid" style="margin-top:14px">
+          <div class="field"><label for="ContactOrder">Numéro de commande (si tu en as un)</label><input id="ContactOrder" type="text" name="contact[Numéro de commande]"></div>
+          <div class="field"><label for="ContactBody">Ton message *</label><textarea id="ContactBody" name="contact[body]" required>{{ form.body }}</textarea></div>
+        </div>
+        <button type="submit" class="btn btn--primary btn--lg" style="margin-top:18px">Envoyer</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Formulaire de contact", "settings": [] }
+{% endschema %}

@@ -1,0 +1,16 @@
+<section class="not-found">
+  <div class="page-width">
+    {%- render 'baubles', class: 'baubles--dark', count: 5 -%}
+    <p class="not-found__code" aria-hidden="true">404</p>
+    <h1>Oups, cette page s'est perdue dans la neige</h1>
+    <p class="section-intro">La page que tu cherches n'existe pas ou a été déplacée. Pas de panique, les idées cadeaux sont toujours là !</p>
+    <div class="help-links">
+      <a href="{{ routes.root_url }}" class="btn btn--primary">Retour à l'accueil</a>
+      <a href="{{ routes.collections_url }}/idees-cadeaux" class="btn btn--outline">Voir les idées cadeaux</a>
+    </div>
+  </div>
+</section>
+<style>.not-found .baubles{justify-content:center;margin-bottom:20px}</style>
+{% schema %}
+{ "name": "Page 404", "settings": [] }
+{% endschema %}

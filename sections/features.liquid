@@ -1,0 +1,52 @@
+<section class="section {{ section.settings.background }}" aria-labelledby="FeaturesTitle-{{ section.id }}">
+  <div class="page-width">
+    <h2 class="section-title" id="FeaturesTitle-{{ section.id }}">{{ section.settings.title | escape }}</h2>
+    {%- if section.settings.text != blank -%}<p class="section-intro">{{ section.settings.text | escape }}</p>{%- endif -%}
+    <ul class="features{% if section.blocks.size == 4 %} features--4{% endif %}" role="list">
+      {%- for block in section.blocks -%}
+        <li class="feature" data-reveal {{ block.shopify_attributes }}>
+          <span class="feature__icon">{%- render 'icon', name: block.settings.icon -%}</span>
+          <h3>{{ block.settings.title | escape }}</h3>
+          <p>{{ block.settings.text | escape }}</p>
+        </li>
+      {%- endfor -%}
+    </ul>
+    {%- if section.settings.show_help_links -%}
+      <div class="help-links" style="margin-top:32px">
+        <a href="/pages/livraison-et-retours" class="btn btn--outline">Livraison et retours</a>
+        <a href="/pages/contact" class="btn btn--outline">Nous contacter</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Arguments",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "Pourquoi nous choisir" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "select", "id": "background", "label": "Fond", "default": "bg-white", "options": [ { "value": "", "label": "Crème" }, { "value": "bg-white", "label": "Blanc" }, { "value": "bg-cream-2", "label": "Crème doré" } ] },
+    { "type": "checkbox", "id": "show_help_links", "label": "Afficher les liens vers les pages d'aide", "default": true }
+  ],
+  "max_blocks": 4,
+  "blocks": [
+    { "type": "item", "name": "Argument", "settings": [
+      { "type": "select", "id": "icon", "label": "Icône", "default": "gift", "options": [
+        { "value": "gift", "label": "Cadeau" }, { "value": "truck", "label": "Camion" }, { "value": "return", "label": "Retour" },
+        { "value": "lock", "label": "Cadenas" }, { "value": "mail", "label": "E-mail" }, { "value": "star", "label": "Étoile" } ] },
+      { "type": "text", "id": "title", "label": "Titre", "default": "Argument" },
+      { "type": "textarea", "id": "text", "label": "Texte (sans chiffre inventé)" }
+    ] }
+  ],
+  "presets": [{
+    "name": "Pourquoi nous choisir",
+    "blocks": [
+      { "type": "item", "settings": { "icon": "gift", "title": "Une sélection resserrée", "text": "Peu de produits, mais chacun choisi pour être une vraie bonne idée de cadeau." } },
+      { "type": "item", "settings": { "icon": "truck", "title": "Des délais annoncés clairement", "text": "Les délais de livraison sont indiqués avant ta commande, sans promesse intenable." } },
+      { "type": "item", "settings": { "icon": "mail", "title": "Un service client par e-mail", "text": "Une question avant ou après ton achat ? Écris-nous, on te répond." } },
+      { "type": "item", "settings": { "icon": "return", "title": "Retours sous 14 jours", "text": "Tu as 14 jours pour changer d'avis après réception." } }
+    ]
+  }]
+}
+{% endschema %}

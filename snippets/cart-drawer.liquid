@@ -1,0 +1,41 @@
+{%- comment -%} Panier latéral qui glisse depuis la droite. Le contenu est mis à jour par theme.js. {%- endcomment -%}
+<aside class="drawer" id="CartDrawer" role="dialog" aria-modal="true" aria-labelledby="CartDrawerTitle" aria-hidden="true" tabindex="-1">
+  <div class="drawer__head">
+    <h2 id="CartDrawerTitle">Ton panier</h2>
+    <button type="button" class="icon-btn" data-cart-close aria-label="Fermer le panier">{%- render 'icon', name: 'close' -%}</button>
+  </div>
+  <div class="drawer__body" data-cart-items>
+    {%- if cart.item_count == 0 -%}
+      <div class="drawer__empty">
+        <p><strong>Ton panier est vide pour l'instant.</strong></p>
+        <p>Jette un œil à nos idées cadeaux !</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">Découvrir la boutique</a>
+      </div>
+    {%- else -%}
+      {%- for item in cart.items -%}
+        <div class="line">
+          {%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: alt: item.product.title, loading: 'lazy' }}{%- else -%}<span></span>{%- endif -%}
+          <div>
+            <a class="line__title" href="{{ item.url }}">{{ item.product.title | escape }}</a>
+            <div class="line__qty">
+              <button type="button" data-line-change="{{ item.key }}" data-qty="{{ item.quantity | minus: 1 }}" aria-label="Retirer un article">−</button>
+              <span>{{ item.quantity }}</span>
+              <button type="button" data-line-change="{{ item.key }}" data-qty="{{ item.quantity | plus: 1 }}" aria-label="Ajouter un article">+</button>
+            </div>
+            <div><button type="button" class="line__remove" data-line-change="{{ item.key }}" data-qty="0">Retirer</button></div>
+          </div>
+          <div class="line__price">{{ item.final_line_price | money }}</div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+  <div class="drawer__foot" data-cart-foot{% if cart.item_count == 0 %} hidden{% endif %}>
+    <div class="drawer__row drawer__row--discount" data-cart-discount{% if cart.total_discount == 0 %} hidden{% endif %}><span>Remise</span><span data-cart-discount-amount>−{{ cart.total_discount | money }}</span></div>
+    <div class="drawer__row"><span>Total TTC</span><span data-cart-total>{{ cart.total_price | money }}</span></div>
+    <p class="drawer__note">Frais de livraison calculés à l'étape suivante.</p>
+    <form action="{{ routes.cart_url }}" method="post">
+      <button type="submit" name="checkout" class="btn btn--primary btn--block btn--lg">Commander</button>
+    </form>
+  </div>
+</aside>
+<div class="drawer-overlay" data-cart-close></div>

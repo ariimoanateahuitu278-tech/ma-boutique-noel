@@ -1,0 +1,50 @@
+<footer class="footer" role="contentinfo">
+  <div class="page-width">
+    <div class="footer__grid">
+      <div>
+        <a href="{{ routes.root_url }}" class="logo"><span class="logo__star" aria-hidden="true">★</span><span>Noël <span class="logo__accent">Magique</span></span></a>
+        <p class="footer__text" style="margin-top:12px">Des idées cadeaux qui font briller les yeux. Une petite sélection, choisie avec soin pour les fêtes.</p>
+        <p class="footer__text">Une question ? <a href="/pages/contact">Écris-nous</a>, on te répond par e-mail.</p>
+      </div>
+      <div>
+        <h2>La boutique</h2>
+        <ul>
+          <li><a href="{{ routes.root_url }}">Accueil</a></li>
+          <li><a href="{{ routes.collections_url }}/idees-cadeaux">Idées cadeaux</a></li>
+          <li><a href="{{ routes.search_url }}">Recherche</a></li>
+          <li><a href="{{ routes.cart_url }}">Panier</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Aide</h2>
+        <ul>
+          <li><a href="/pages/livraison-et-retours">Livraison et retours</a></li>
+          <li><a href="/pages/contact">Contact</a></li>
+          <li><a href="/pages/politique-de-retour">Politique de retour</a></li>
+          <li><a href="#" data-cookie-open>Gérer les cookies</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Informations légales</h2>
+        <ul>
+          <li><a href="/pages/mentions-legales">Mentions légales</a></li>
+          <li><a href="/pages/conditions-generales-de-vente">Conditions générales de vente</a></li>
+          <li><a href="/pages/politique-de-confidentialite">Politique de confidentialité</a></li>
+        </ul>
+        <p style="margin-top:16px"><a href="/pages/retractation" class="withdraw-btn">Se rétracter du contrat</a></p>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© {{ 'now' | date: '%Y' }} Noël Magique · Prix TTC</span>
+      {%- render 'payment-means', class: 'payments' -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Pied de page",
+  "settings": []
+}
+{% endschema %}

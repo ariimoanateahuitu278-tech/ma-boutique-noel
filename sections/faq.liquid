@@ -1,0 +1,40 @@
+<section class="section {{ section.settings.background }}" aria-labelledby="FaqTitle-{{ section.id }}">
+  <div class="page-width">
+    <h2 class="section-title" id="FaqTitle-{{ section.id }}">{{ section.settings.title | escape }}</h2>
+    {%- if section.settings.text != blank -%}<p class="section-intro">{{ section.settings.text | escape }}</p>{%- endif -%}
+    <div class="faq">
+      {%- for block in section.blocks -%}
+        <details class="accordion" {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.question | escape }}</summary>
+          <div class="accordion__content">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "Questions fréquentes" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "select", "id": "background", "label": "Fond", "default": "bg-white", "options": [ { "value": "", "label": "Crème" }, { "value": "bg-white", "label": "Blanc" } ] }
+  ],
+  "blocks": [
+    { "type": "question", "name": "Question", "settings": [
+      { "type": "text", "id": "question", "label": "Question", "default": "Question" },
+      { "type": "richtext", "id": "answer", "label": "Réponse", "default": "<p>Réponse</p>" }
+    ] }
+  ],
+  "presets": [{
+    "name": "FAQ",
+    "blocks": [
+      { "type": "question", "settings": { "question": "Quels sont les délais de livraison ?", "answer": "<p>Les délais de livraison réels sont indiqués sur notre page <a href=\"/pages/livraison-et-retours\">Livraison et retours</a>. Consulte-la avant de commander, surtout à l'approche de Noël.</p>" } },
+      { "type": "question", "settings": { "question": "Puis-je retourner un produit ?", "answer": "<p>Oui. Tu as 14 jours après réception pour changer d'avis, sans avoir à te justifier. Tout est expliqué sur la page <a href=\"/pages/livraison-et-retours\">Livraison et retours</a>.</p>" } },
+      { "type": "question", "settings": { "question": "Comment puis-je payer ?", "answer": "<p>Le paiement se fait en ligne, par carte bancaire, sur une page de paiement sécurisée. Les prix sont affichés TTC.</p>" } },
+      { "type": "question", "settings": { "question": "Comment suivre ma commande ?", "answer": "<p>Après ton achat, tu reçois un e-mail de confirmation. Pour toute question sur ta commande, <a href=\"/pages/contact\">écris-nous</a> avec ton numéro de commande.</p>" } }
+    ]
+  }]
+}
+{% endschema %}

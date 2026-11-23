@@ -1,0 +1,11 @@
+{%- comment -%} Moyens de paiement acceptés, en texte et icônes génériques (aucun logo de marque). {%- endcomment -%}
+{%- assign means = settings.payment_means | default: 'Carte bancaire' | split: ',' -%}
+<ul class="{{ class | default: 'pay-means' }}" aria-label="Moyens de paiement acceptés">
+  {%- for m in means -%}
+    {%- assign label = m | strip -%}
+    {%- if label != blank -%}
+      <li>{%- render 'icon', name: 'card' -%}{{ label | escape }}</li>
+    {%- endif -%}
+  {%- endfor -%}
+  <li>{%- render 'icon', name: 'lock' -%}Paiement sécurisé</li>
+</ul>

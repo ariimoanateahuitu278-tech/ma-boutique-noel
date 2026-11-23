@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#dc2626">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- liquid
+      assign shop_name = 'Noël Magique'
+      if template.name == 'index'
+        assign page_title_full = shop_name | append: ' | Des idées cadeaux qui font briller les yeux'
+      else
+        assign page_title_full = page_title | append: ' | ' | append: shop_name
+        if current_page != 1
+          assign page_title_full = page_title | append: ' | Page ' | append: current_page | append: ' | ' | append: shop_name
+        endif
+      endif
+      if page_description != blank
+        assign meta_description = page_description | strip_html | strip_newlines | truncate: 158
+      else
+        assign meta_description = 'Noël Magique : des idées cadeaux originales pour Noël, choisies avec soin. Paiement sécurisé, retours sous 14 jours, service client par e-mail.'
+      endif
+    -%}
+    <title>{{ page_title_full | escape }}</title>
+    <meta name="description" content="{{ meta_description | escape }}">
+
+    <meta property="og:site_name" content="Noël Magique">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:title" content="{{ page_title_full | escape }}">
+    <meta property="og:description" content="{{ meta_description | escape }}">
+    <meta property="og:type" content="{% if template.name == 'product' %}product{% else %}website{% endif %}">
+    {%- if template.name == 'product' and product.featured_image -%}
+      <meta property="og:image" content="https:{{ product.featured_image | image_url: width: 1200 }}">
+    {%- endif -%}
+    <meta name="twitter:card" content="summary_large_image">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
+    {%- endif -%}
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="template-{{ template.name | handle }}">
+    <a class="skip-link" href="#MainContent">Aller au contenu</a>
+
+    {%- render 'snowfall' -%}
+
+    {% section 'announcement-bar' %}
+    {% section 'header' %}
+    {%- render 'garland' -%}
+
+    <main id="MainContent" class="main" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {%- render 'candy-ribbon' -%}
+    {% section 'footer' %}
+
+    {%- render 'cart-drawer' -%}
+    {%- if settings.show_cookie_banner -%}
+      {%- render 'cookie-banner' -%}
+    {%- endif -%}
+
+    <script>
+      window.NoelMagique = {
+        routes: {
+          cart: {{ routes.cart_url | json }},
+          cartAdd: {{ routes.cart_add_url | append: '.js' | json }},
+          cartChange: {{ routes.cart_change_url | append: '.js' | json }},
+          cartJs: {{ routes.cart_url | append: '.js' | json }}
+        },
+        moneyFormat: {{ shop.money_format | json }}
+      };
+    </script>
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  </body>
+</html>

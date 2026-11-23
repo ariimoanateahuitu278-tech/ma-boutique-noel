@@ -1,0 +1,40 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Noël Magique",
+    "theme_version": "1.0.0",
+    "theme_author": "Noël Magique",
+    "theme_documentation_url": "https://help.shopify.com/fr/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com/fr"
+  },
+  {
+    "name": "Boutique",
+    "settings": [
+      { "type": "text", "id": "contact_email", "label": "E-mail de contact affiché", "default": "[À COMPLÉTER]" },
+      { "type": "text", "id": "free_shipping_text", "label": "Argument livraison (laisser vide si la livraison n'est pas offerte)", "default": "Livraison offerte", "info": "N'écris « Livraison offerte » que si la livraison est réglée à 0 € dans Paramètres > Expédition et livraison." },
+      { "type": "text", "id": "tax_label", "label": "Mention à côté du prix", "default": "TTC" },
+      { "type": "text", "id": "payment_means", "label": "Moyens de paiement acceptés (séparés par des virgules)", "default": "Carte bancaire" },
+      { "type": "image_picker", "id": "favicon", "label": "Icône d'onglet (favicon)" }
+    ]
+  },
+  {
+    "name": "Paiement",
+    "settings": [
+      {
+        "type": "select", "id": "checkout_mode", "label": "Mode de paiement", "default": "whop",
+        "options": [
+          { "value": "whop", "label": "Whop : le bouton « Acheter » ouvre le lien Whop du produit" },
+          { "value": "shopify", "label": "Shopify : panier et paiement Shopify" }
+        ],
+        "info": "En mode Whop, si un produit n'a pas encore de lien Whop (métachamp custom.lien_whop), le panier Shopify est utilisé pour ce produit."
+      }
+    ]
+  },
+  {
+    "name": "Ambiance de Noël",
+    "settings": [
+      { "type": "checkbox", "id": "show_snow", "label": "Afficher la neige", "default": true },
+      { "type": "checkbox", "id": "show_cookie_banner", "label": "Afficher le bandeau cookies du thème", "default": true, "info": "Décoche si tu utilises la bannière de cookies intégrée de Shopify (Paramètres > Confidentialité des clients)." }
+    ]
+  }
+]

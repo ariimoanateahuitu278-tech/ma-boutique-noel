@@ -1,0 +1,19 @@
+{
+  "current": {
+    "contact_email": "[À COMPLÉTER]",
+    "free_shipping_text": "Livraison offerte",
+    "tax_label": "TTC",
+    "payment_means": "Carte bancaire",
+    "checkout_mode": "whop",
+    "show_snow": true,
+    "show_cookie_banner": true,
+    "sections": {
+      "announcement-bar": { "type": "announcement-bar", "settings": {} },
+      "header": { "type": "header", "settings": {} },
+      "footer": { "type": "footer", "settings": {} }
+    }
+  },
+  "presets": {
+    "Noël Magique": {}
+  }
+}

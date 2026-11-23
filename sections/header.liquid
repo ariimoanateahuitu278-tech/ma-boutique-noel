@@ -1,0 +1,72 @@
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+-%}
+<header class="header" data-header>
+  <div class="page-width header__inner">
+    <button type="button" class="icon-btn menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="MobileNav" aria-label="Ouvrir le menu">{%- render 'icon', name: 'menu' -%}</button>
+
+    <a href="{{ routes.root_url }}" class="logo" aria-label="Noël Magique, retour à l'accueil">
+      <span class="logo__star" aria-hidden="true">★</span><span>Noël <span class="logo__accent">Magique</span></span>
+    </a>
+
+    <nav class="nav" aria-label="Menu principal">
+      <ul>
+        {%- if menu.links.size > 0 -%}
+          {%- for link in menu.links -%}
+            <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a></li>
+          {%- endfor -%}
+        {%- else -%}
+          <li><a href="{{ routes.root_url }}"{% if template.name == 'index' %} aria-current="page"{% endif %}>Accueil</a></li>
+          <li><a href="{{ routes.collections_url }}/idees-cadeaux">Idées cadeaux</a></li>
+          <li><a href="/pages/livraison-et-retours">Livraison et retours</a></li>
+          <li><a href="/pages/contact">Contact</a></li>
+        {%- endif -%}
+      </ul>
+    </nav>
+
+    <div class="header__icons">
+      <button type="button" class="icon-btn" data-search-toggle aria-expanded="false" aria-controls="HeaderSearch" aria-label="Rechercher">{%- render 'icon', name: 'search' -%}</button>
+      <a href="{{ routes.cart_url }}" class="icon-btn" data-cart-open aria-label="Ouvrir le panier">
+        {%- render 'icon', name: 'bag' -%}
+        <span class="cart-count" data-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="search-bar" id="HeaderSearch">
+    <div class="page-width">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
+        <label for="HeaderSearchInput" class="visually-hidden">Rechercher un produit</label>
+        <input type="search" id="HeaderSearchInput" name="q" placeholder="Rechercher une idée cadeau…" value="{{ search.terms | escape }}">
+        <input type="hidden" name="type" value="product">
+        <button type="submit" class="btn btn--primary">Rechercher</button>
+      </form>
+    </div>
+  </div>
+
+  <nav class="mobile-nav" id="MobileNav" aria-label="Menu mobile">
+    <div class="page-width">
+      <ul>
+        {%- if menu.links.size > 0 -%}
+          {%- for link in menu.links -%}
+            <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+          {%- endfor -%}
+        {%- else -%}
+          <li><a href="{{ routes.root_url }}">Accueil</a></li>
+          <li><a href="{{ routes.collections_url }}/idees-cadeaux">Idées cadeaux</a></li>
+          <li><a href="/pages/livraison-et-retours">Livraison et retours</a></li>
+          <li><a href="/pages/contact">Contact</a></li>
+        {%- endif -%}
+      </ul>
+    </div>
+  </nav>
+</header>
+
+{% schema %}
+{
+  "name": "En-tête",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu (laisser vide pour le menu par défaut)" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "main": { "type": "main-product", "settings": { "show_offers": true } },
+    "ribbon": { "type": "candy-divider", "settings": {} },
+    "related": { "type": "related-products", "settings": {} }
+  },
+  "order": ["main", "ribbon", "related"]
+}

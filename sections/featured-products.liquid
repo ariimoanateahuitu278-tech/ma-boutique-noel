@@ -1,0 +1,35 @@
+{%- liquid
+  assign col = section.settings.collection
+  if col == blank
+    assign col = collections['idees-cadeaux']
+  endif
+  if col == blank or col.products_count == 0
+    assign col = collections.all
+  endif
+-%}
+<section class="section" id="produits" aria-labelledby="FeaturedTitle-{{ section.id }}">
+  <div class="page-width">
+    <span class="eyebrow" style="display:block;text-align:center">{{ section.settings.eyebrow | escape }}</span>
+    <h2 class="section-title" id="FeaturedTitle-{{ section.id }}">{{ section.settings.title | escape }}</h2>
+    {%- if section.settings.text != blank -%}<p class="section-intro">{{ section.settings.text | escape }}</p>{%- endif -%}
+    <ul class="product-grid" role="list">
+      {%- for p in col.products limit: section.settings.limit -%}
+        <li>{%- render 'product-card', card_product: p -%}</li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Produits en vitrine",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Idées cadeaux" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Nos idées cadeaux pour Noël" },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Trois cadeaux originaux, choisis pour faire plaisir sous le sapin." },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "limit", "label": "Nombre de produits", "min": 1, "max": 12, "step": 1, "default": 3 }
+  ],
+  "presets": [{ "name": "Produits en vitrine" }]
+}
+{% endschema %}

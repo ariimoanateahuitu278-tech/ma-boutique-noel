@@ -1,0 +1,7 @@
+{%- comment -%} Guirlande lumineuse décorative {%- endcomment -%}
+<div class="garland{% if class %} {{ class }}{% endif %}" aria-hidden="true">
+  <div class="garland__wire"></div>
+  <div class="garland__bulbs">
+    {%- for i in (1..24) -%}<span></span>{%- endfor -%}
+  </div>
+</div>

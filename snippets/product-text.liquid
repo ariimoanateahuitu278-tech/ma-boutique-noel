@@ -1,0 +1,108 @@
+{%- comment -%}
+  Textes de la fiche produit.
+  Chaque texte peut être remplacé depuis l'admin Shopify par un métachamp produit
+  (custom.surtitre, custom.accroche, custom.avantages, custom.point_vigilance,
+  custom.caracteristiques). Sinon, le texte par défaut ci-dessous est utilisé,
+  choisi d'après l'identifiant (handle) du produit.
+  Paramètres : product, field ('eyebrow' | 'hook' | 'benefits' | 'vigilance' | 'specs' | 'faq')
+  Les champs 'benefits' et 'specs' renvoient des <li>. 'faq' renvoie des <details>.
+{%- endcomment -%}
+{%- liquid
+  assign key = 'autre'
+  if product.handle contains 'microscope'
+    assign key = 'microscope'
+  elsif product.handle contains 'stylo'
+    assign key = 'stylo'
+  elsif product.handle contains 'chauffe'
+    assign key = 'chauffe'
+  endif
+  assign mf = product.metafields.custom
+-%}
+
+{%- case field -%}
+
+  {%- when 'eyebrow' -%}
+    {%- if mf.surtitre != blank -%}{{ mf.surtitre.value | escape }}{%- else -%}Idée cadeau de Noël{%- endif -%}
+
+  {%- when 'hook' -%}
+    {%- if mf.accroche != blank -%}
+      {{ mf.accroche.value | escape }}
+    {%- else -%}
+      {%- case key -%}
+        {%- when 'microscope' -%}Un microscope numérique qui tient dans la poche, pour partir à la découverte de l'infiniment petit.
+        {%- when 'stylo' -%}Un stylo 3D avec écran LED pour dessiner en relief et donner vie à ses idées.
+        {%- when 'chauffe' -%}Un chauffe-mains rechargeable qui se glisse dans la poche, pour garder les mains au chaud cet hiver.
+        {%- else -%}Une idée cadeau choisie avec soin pour les fêtes.
+      {%- endcase -%}
+    {%- endif -%}
+
+  {%- when 'benefits' -%}
+    {%- liquid
+      if mf.avantages != blank
+        assign items = mf.avantages.value | newline_to_br | split: '<br />'
+      else
+        case key
+          when 'microscope'
+            assign items = 'Microscope numérique pour observer de tout près|Format de poche, facile à emporter partout|Pensé pour les enfants|Une idée cadeau qui éveille la curiosité' | split: '|'
+          when 'stylo'
+            assign items = 'Écran LED intégré|Pour dessiner en relief, en 3D|Pensé pour les enfants|Un cadeau créatif pour les fêtes' | split: '|'
+          when 'chauffe'
+            assign items = 'Rechargeable : pas de piles jetables à racheter|Format de poche, il se glisse partout|Pour garder les mains au chaud|Un cadeau pratique pour l’hiver' | split: '|'
+          else
+            assign items = 'Une idée cadeau choisie avec soin' | split: '|'
+        endcase
+      endif
+    -%}
+    {%- for item in items -%}
+      {%- assign t = item | strip -%}
+      {%- if t != blank -%}
+        <li><span class="check">{%- render 'icon', name: 'check' -%}</span><span>{{ t | escape }}</span></li>
+      {%- endif -%}
+    {%- endfor -%}
+
+  {%- when 'vigilance' -%}
+    {%- if mf.point_vigilance != blank -%}
+      {{ mf.point_vigilance.value | escape }}
+    {%- else -%}
+      {%- case key -%}
+        {%- when 'microscope' -%}C'est un objet à manipuler avec soin : range-le dans un endroit sûr après chaque utilisation.
+        {%- when 'stylo' -%}À utiliser en suivant les consignes du fabricant fournies avec le stylo.
+        {%- when 'chauffe' -%}Pense à le recharger avant la première utilisation.
+      {%- endcase -%}
+    {%- endif -%}
+
+  {%- when 'specs' -%}
+    {%- case key -%}
+      {%- when 'microscope' -%}
+        <li>Type : microscope numérique de poche</li>
+        <li>Pensé pour : les enfants</li>
+      {%- when 'stylo' -%}
+        <li>Type : stylo 3D</li>
+        <li>Écran : LED</li>
+        <li>Pensé pour : les enfants</li>
+      {%- when 'chauffe' -%}
+        <li>Type : chauffe-mains de poche</li>
+        <li>Alimentation : rechargeable</li>
+    {%- endcase -%}
+    {%- if mf.caracteristiques != blank -%}
+      {%- assign specs = mf.caracteristiques.value | newline_to_br | split: '<br />' -%}
+      {%- for s in specs -%}
+        {%- assign t = s | strip -%}
+        {%- if t != blank -%}<li>{{ t | escape }}</li>{%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+
+  {%- when 'faq' -%}
+    {%- case key -%}
+      {%- when 'microscope' -%}
+        <details class="accordion"><summary>Comment en prendre soin ?</summary><div class="accordion__content"><p>C'est un objet à manipuler avec soin. Après chaque utilisation, range-le dans un endroit sûr.</p></div></details>
+        <details class="accordion"><summary>Est-ce un bon cadeau de Noël ?</summary><div class="accordion__content"><p>C'est une idée originale pour celles et ceux qui aiment observer et découvrir. Le format de poche permet de l'emporter partout.</p></div></details>
+      {%- when 'stylo' -%}
+        <details class="accordion"><summary>Comment bien l'utiliser ?</summary><div class="accordion__content"><p>Suis les consignes du fabricant fournies avec le stylo, et lis-les avant la première utilisation.</p></div></details>
+        <details class="accordion"><summary>Que peut-on faire avec ?</summary><div class="accordion__content"><p>Dessiner en relief, en 3D : de quoi laisser parler sa créativité pendant les fêtes.</p></div></details>
+      {%- when 'chauffe' -%}
+        <details class="accordion"><summary>Faut-il le charger avant de l'utiliser ?</summary><div class="accordion__content"><p>Oui. Pense à le recharger avant la première utilisation.</p></div></details>
+        <details class="accordion"><summary>Faut-il acheter des piles ?</summary><div class="accordion__content"><p>Non, il est rechargeable.</p></div></details>
+    {%- endcase -%}
+
+{%- endcase -%}

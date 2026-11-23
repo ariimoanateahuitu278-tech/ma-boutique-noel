@@ -1,0 +1,18 @@
+<div class="page-hero"><div class="page-width"><h1>Catalogue</h1></div></div>
+<section class="section">
+  <div class="page-width">
+    <ul class="features" role="list">
+      {%- for c in collections -%}
+        {%- if c.products_count > 0 -%}
+          <li class="feature">
+            <h2 style="font-size:1.3rem">{{ c.title | escape }}</h2>
+            <a class="btn btn--primary" href="{{ c.url }}">Voir les produits</a>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+{% schema %}
+{ "name": "Liste des collections", "settings": [] }
+{% endschema %}

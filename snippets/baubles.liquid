@@ -1,0 +1,16 @@
+{%- comment -%} Boules de Noël suspendues. Paramètres : class (optionnel), count (5 à 7) {%- endcomment -%}
+{%- liquid
+  assign total = count | default: 6
+  assign colors = 'red,gold,green,blue,red,gold,green' | split: ','
+  assign lengths = '34,58,22,46,28,62,40' | split: ','
+-%}
+<div class="baubles{% if class %} {{ class }}{% endif %}" aria-hidden="true">
+  {%- for i in (1..total) -%}
+    {%- assign idx = forloop.index0 -%}
+    <span class="bauble bauble--{{ colors[idx] }}">
+      <span class="bauble__string" style="height: {{ lengths[idx] }}px"></span>
+      <span class="bauble__cap"></span>
+      <span class="bauble__ball"></span>
+    </span>
+  {%- endfor -%}
+</div>

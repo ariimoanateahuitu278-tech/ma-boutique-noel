@@ -1,0 +1,24 @@
+{%- comment -%} « Vous aimerez aussi » : affiché uniquement s'il y a au moins deux produits dans la boutique. {%- endcomment -%}
+{%- if collections.all.products_count >= 2 -%}
+  <section class="section bg-white" aria-labelledby="RelatedTitle-{{ section.id }}">
+    <div class="page-width">
+      <h2 class="section-title" id="RelatedTitle-{{ section.id }}">{{ section.settings.title | escape }}</h2>
+      <ul class="product-grid" role="list" style="margin-top:28px">
+        {%- for p in collections.all.products limit: 12 -%}
+          {%- if p.id != product.id -%}
+            <li>{%- render 'product-card', card_product: p -%}</li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Vous aimerez aussi",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "Vous aimerez aussi" }
+  ]
+}
+{% endschema %}
