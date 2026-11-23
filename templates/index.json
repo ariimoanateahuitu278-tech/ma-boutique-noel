@@ -1,65 +1,340 @@
 {
   "sections": {
-    "hero": { "type": "hero", "settings": {} },
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
     "marquee": {
       "type": "marquee",
       "blocks": {
-        "m1": { "type": "item", "settings": { "text": "Livraison offerte" } },
-        "m2": { "type": "item", "settings": { "text": "Retours sous 14 jours" } },
-        "m3": { "type": "item", "settings": { "text": "Paiement sécurisé" } },
-        "m4": { "type": "item", "settings": { "text": "Service client par e-mail" } },
-        "m5": { "type": "item", "settings": { "text": "Des idées cadeaux choisies avec soin" } }
+        "m1": {
+          "type": "item",
+          "settings": {
+            "text": "Livraison offerte"
+          }
+        },
+        "m2": {
+          "type": "item",
+          "settings": {
+            "text": "Retours sous 14 jours"
+          }
+        },
+        "m3": {
+          "type": "item",
+          "settings": {
+            "text": "Paiement sécurisé"
+          }
+        },
+        "m4": {
+          "type": "item",
+          "settings": {
+            "text": "Service client par e-mail"
+          }
+        },
+        "m5": {
+          "type": "item",
+          "settings": {
+            "text": "Des idées cadeaux choisies avec soin"
+          }
+        }
       },
-      "block_order": ["m1", "m2", "m3", "m4", "m5"],
+      "block_order": [
+        "m1",
+        "m2",
+        "m3",
+        "m4",
+        "m5"
+      ],
       "settings": {}
     },
     "trust": {
       "type": "trust-bar",
       "blocks": {
-        "t1": { "type": "item", "settings": { "icon": "truck", "text": "Livraison offerte" } },
-        "t2": { "type": "item", "settings": { "icon": "return", "text": "Retours 14 jours" } },
-        "t3": { "type": "item", "settings": { "icon": "lock", "text": "Paiement sécurisé" } },
-        "t4": { "type": "item", "settings": { "icon": "mail", "text": "Service client" } }
+        "t1": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "text": "Livraison offerte"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "icon": "return",
+            "text": "Retours 14 jours"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "icon": "lock",
+            "text": "Paiement sécurisé"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "icon": "mail",
+            "text": "Service client"
+          }
+        }
       },
-      "block_order": ["t1", "t2", "t3", "t4"],
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
       "settings": {}
     },
-    "products": { "type": "featured-products", "settings": {} },
-    "ribbon_1": { "type": "candy-divider", "settings": {} },
+    "products": {
+      "type": "featured-products",
+      "settings": {
+        "eyebrow": "Idées cadeaux",
+        "title": "Notre sélection",
+        "text": "Trois cadeaux originaux, choisis pour faire plaisir sous le sapin."
+      }
+    },
+    "ribbon_1": {
+      "type": "candy-divider",
+      "settings": {}
+    },
     "why": {
       "type": "features",
       "blocks": {
-        "w1": { "type": "item", "settings": { "icon": "gift", "title": "Une sélection resserrée", "text": "Peu de produits, mais chacun choisi pour être une vraie bonne idée de cadeau." } },
-        "w2": { "type": "item", "settings": { "icon": "truck", "title": "Des délais annoncés clairement", "text": "Les délais de livraison sont indiqués avant ta commande, sans promesse intenable." } },
-        "w3": { "type": "item", "settings": { "icon": "mail", "title": "Un service client par e-mail", "text": "Une question avant ou après ton achat ? Écris-nous, on te répond." } },
-        "w4": { "type": "item", "settings": { "icon": "return", "title": "Retours sous 14 jours", "text": "Tu as 14 jours après réception pour changer d'avis." } }
+        "w1": {
+          "type": "item",
+          "settings": {
+            "icon": "gift",
+            "title": "Une sélection resserrée",
+            "text": "Peu de produits, mais chacun choisi pour être une vraie bonne idée de cadeau."
+          }
+        },
+        "w2": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Des délais annoncés clairement",
+            "text": "Les délais de livraison sont indiqués avant ta commande, sans promesse intenable."
+          }
+        },
+        "w3": {
+          "type": "item",
+          "settings": {
+            "icon": "mail",
+            "title": "Un service client par e-mail",
+            "text": "Une question avant ou après ton achat ? Écris-nous, on te répond."
+          }
+        },
+        "w4": {
+          "type": "item",
+          "settings": {
+            "icon": "return",
+            "title": "Retours sous 14 jours",
+            "text": "Tu as 14 jours après réception pour changer d'avis."
+          }
+        }
       },
-      "block_order": ["w1", "w2", "w3", "w4"],
-      "settings": { "title": "Pourquoi nous choisir", "text": "Une petite boutique de Noël, simple et honnête.", "background": "bg-white", "show_help_links": true }
+      "block_order": [
+        "w1",
+        "w2",
+        "w3",
+        "w4"
+      ],
+      "settings": {
+        "title": "Pourquoi nous choisir",
+        "text": "Une petite boutique de Noël, simple et honnête.",
+        "background": "bg-white",
+        "show_help_links": true
+      }
     },
-    "ribbon_2": { "type": "candy-divider", "settings": {} },
+    "ribbon_2": {
+      "type": "candy-divider",
+      "settings": {}
+    },
     "steps": {
       "type": "how-it-works",
       "blocks": {
-        "s1": { "type": "step", "settings": { "title": "Je choisis", "text": "Je parcours les idées cadeaux et je trouve celle qui fera plaisir." } },
-        "s2": { "type": "step", "settings": { "title": "Je commande", "text": "J'ajoute au panier et je paie en ligne, de façon sécurisée." } },
-        "s3": { "type": "step", "settings": { "title": "Je reçois", "text": "Mon colis arrive chez moi, prêt à glisser sous le sapin." } }
+        "s1": {
+          "type": "step",
+          "settings": {
+            "title": "Je choisis",
+            "text": "Je parcours les idées cadeaux et je trouve celle qui fera plaisir."
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "title": "Je commande",
+            "text": "J'ajoute au panier et je paie en ligne, de façon sécurisée."
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "title": "Je reçois",
+            "text": "Mon colis arrive chez moi, prêt à glisser sous le sapin."
+          }
+        }
       },
-      "block_order": ["s1", "s2", "s3"],
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
       "settings": {}
     },
-    "ribbon_3": { "type": "candy-divider", "settings": {} },
+    "ribbon_3": {
+      "type": "candy-divider",
+      "settings": {}
+    },
     "faq": {
       "type": "faq",
       "blocks": {
-        "f1": { "type": "question", "settings": { "question": "Quels sont les délais de livraison ?", "answer": "<p>Les délais de livraison réels sont indiqués sur notre page <a href=\"/pages/livraison-et-retours\">Livraison et retours</a>. Consulte-la avant de commander, surtout à l'approche de Noël.</p>" } },
-        "f2": { "type": "question", "settings": { "question": "Puis-je retourner un produit ?", "answer": "<p>Oui. Tu as 14 jours après réception pour changer d'avis, sans avoir à te justifier. Tout est expliqué sur la page <a href=\"/pages/livraison-et-retours\">Livraison et retours</a>.</p>" } },
-        "f3": { "type": "question", "settings": { "question": "Comment puis-je payer ?", "answer": "<p>Le paiement se fait en ligne, par carte bancaire, sur une page de paiement sécurisée. Les prix sont affichés TTC.</p>" } },
-        "f4": { "type": "question", "settings": { "question": "Comment suivre ma commande ?", "answer": "<p>Après ton achat, tu reçois un e-mail de confirmation. Pour toute question sur ta commande, <a href=\"/pages/contact\">écris-nous</a> avec ton numéro de commande.</p>" } }
+        "f1": {
+          "type": "question",
+          "settings": {
+            "question": "Quels sont les délais de livraison ?",
+            "answer": "<p>Les délais de livraison réels sont indiqués sur notre page <a href=\"/pages/livraison-et-retours\">Livraison et retours</a>. Consulte-la avant de commander, surtout à l'approche de Noël.</p>"
+          }
+        },
+        "f2": {
+          "type": "question",
+          "settings": {
+            "question": "Puis-je retourner un produit ?",
+            "answer": "<p>Oui. Tu as 14 jours après réception pour changer d'avis, sans avoir à te justifier. Tout est expliqué sur la page <a href=\"/pages/livraison-et-retours\">Livraison et retours</a>.</p>"
+          }
+        },
+        "f3": {
+          "type": "question",
+          "settings": {
+            "question": "Comment puis-je payer ?",
+            "answer": "<p>Le paiement se fait en ligne, par carte bancaire, sur une page de paiement sécurisée. Les prix sont affichés TTC.</p>"
+          }
+        },
+        "f4": {
+          "type": "question",
+          "settings": {
+            "question": "Comment suivre ma commande ?",
+            "answer": "<p>Après ton achat, tu reçois un e-mail de confirmation. Pour toute question sur ta commande, <a href=\"/pages/contact\">écris-nous</a> avec ton numéro de commande.</p>"
+          }
+        }
       },
-      "block_order": ["f1", "f2", "f3", "f4"],
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4"
+      ],
+      "settings": {}
+    },
+    "whyproducts": {
+      "type": "features",
+      "blocks": {
+        "p1": {
+          "type": "item",
+          "settings": {
+            "icon": "microscope",
+            "title": "Pour les curieux",
+            "text": "Un microscope de poche avec écran IPS de 2 pouces, un grossissement jusqu'à 1000x et 8 lumières LED réglables."
+          }
+        },
+        "p2": {
+          "type": "item",
+          "settings": {
+            "icon": "pen",
+            "title": "Pour les créatifs",
+            "text": "Un stylo 3D avec affichage LED et filaments colorés, pour dessiner en relief, sans écran."
+          }
+        },
+        "p3": {
+          "type": "item",
+          "settings": {
+            "icon": "snowflake",
+            "title": "Pour l'hiver",
+            "text": "Un chauffe-mains rechargeable ultra fin, qui chauffe des deux côtés, avec réglage de chaleur."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "title": "Pourquoi ces idées cadeaux",
+        "text": "Trois cadeaux de Noël utiles et originaux, chacun pour une envie différente.",
+        "background": "bg-white",
+        "show_help_links": false
+      }
+    },
+    "engagements": {
+      "type": "features",
+      "blocks": {
+        "e1": {
+          "type": "item",
+          "settings": {
+            "icon": "return",
+            "title": "Retours sous 14 jours",
+            "text": "Tu as 14 jours après réception pour changer d'avis, sans te justifier."
+          }
+        },
+        "e2": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Livraison suivie",
+            "text": "Tu reçois un e-mail quand ta commande est expédiée."
+          }
+        },
+        "e3": {
+          "type": "item",
+          "settings": {
+            "icon": "lock",
+            "title": "Paiement sécurisé",
+            "text": "Tu paies en ligne sur une page de paiement sécurisée."
+          }
+        },
+        "e4": {
+          "type": "item",
+          "settings": {
+            "icon": "mail",
+            "title": "Service client",
+            "text": "Une question ? Écris-nous par e-mail, on te répond."
+          }
+        }
+      },
+      "block_order": [
+        "e1",
+        "e2",
+        "e3",
+        "e4"
+      ],
+      "settings": {
+        "title": "Nos engagements",
+        "text": "Ce qu'on te promet, et qu'on tient.",
+        "background": "bg-cream-2",
+        "show_help_links": true
+      }
+    },
+    "ribbon_4": {
+      "type": "candy-divider",
       "settings": {}
     }
   },
-  "order": ["hero", "marquee", "trust", "products", "ribbon_1", "why", "ribbon_2", "steps", "ribbon_3", "faq"]
+  "order": [
+    "hero",
+    "marquee",
+    "trust",
+    "whyproducts",
+    "products",
+    "ribbon_1",
+    "why",
+    "ribbon_2",
+    "steps",
+    "ribbon_3",
+    "engagements",
+    "ribbon_4",
+    "faq"
+  ]
 }

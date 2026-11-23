@@ -1,0 +1,51 @@
+{%- comment -%}
+  Bannière plein écran : photo du produit en fond (photo « en situation » si fournie via le métachamp
+  custom.photo_situation, sinon une photo du produit), assombrie pour la lisibilité du texte blanc.
+  Le bouton « Voir la vidéo » n'apparaît que si une vidéo existe.
+{%- endcomment -%}
+{%- liquid
+  assign mf = product.metafields.custom
+  assign bg = mf.photo_situation.value
+  if bg == blank
+    if product.media.size > 1
+      assign bg = product.media[1].preview_image
+    else
+      assign bg = product.featured_image
+    endif
+  endif
+  assign video_media = nil
+  for m in product.media
+    if m.media_type == 'video' or m.media_type == 'external_video'
+      assign video_media = m
+      break
+    endif
+  endfor
+-%}
+<section class="pbanner" aria-labelledby="BannerTitle-{{ section.id }}">
+  {%- if bg -%}
+    <div class="pbanner__bg">{{ bg | image_url: width: 2000 | image_tag: loading: 'lazy', widths: '750, 1100, 1500, 2000', sizes: '100vw', alt: bg.alt | default: product.title }}</div>
+  {%- endif -%}
+  <div class="pbanner__shade" aria-hidden="true"></div>
+  <div class="page-width pbanner__content">
+    <span class="pbanner__eyebrow">{{ product.title | escape }}</span>
+    <h2 id="BannerTitle-{{ section.id }}" class="pbanner__title">{%- render 'product-text', product: product, field: 'banner' -%}</h2>
+    {%- if video_media -%}
+      <button type="button" class="btn btn--white btn--lg" data-video-open="ProductVideo-{{ section.id }}">{%- render 'icon', name: 'play' -%}Voir la vidéo</button>
+    {%- endif -%}
+  </div>
+</section>
+{%- if video_media -%}
+  <div class="video-modal" id="ProductVideo-{{ section.id }}" role="dialog" aria-modal="true" aria-label="Vidéo du produit">
+    <div class="video-modal__inner">
+      <button type="button" class="video-modal__close" data-video-close>Fermer ✕</button>
+      {%- if video_media.media_type == 'video' -%}
+        {{ video_media | media_tag: controls: true, playsinline: true, preload: 'none' }}
+      {%- else -%}
+        {{ video_media | external_video_tag }}
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+{% schema %}
+{ "name": "Bannière produit", "settings": [] }
+{% endschema %}

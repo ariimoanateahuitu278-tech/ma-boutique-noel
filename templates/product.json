@@ -1,8 +1,17 @@
 {
   "sections": {
     "main": { "type": "main-product", "settings": { "show_offers": true } },
-    "ribbon": { "type": "candy-divider", "settings": {} },
+    "banner": { "type": "product-banner", "settings": {} },
+    "why": { "type": "product-why", "settings": {} },
+    "steps": { "type": "product-steps", "settings": {} },
+    "ribbon_1": { "type": "candy-divider", "settings": {} },
+    "compare": { "type": "product-compare", "settings": {} },
+    "box": { "type": "product-box", "settings": {} },
+    "specs": { "type": "product-specs", "settings": {} },
+    "faq": { "type": "product-faq", "settings": {} },
+    "buyband": { "type": "product-buy-band", "settings": {} },
+    "ribbon_2": { "type": "candy-divider", "settings": {} },
     "related": { "type": "related-products", "settings": {} }
   },
-  "order": ["main", "ribbon", "related"]
+  "order": ["main", "banner", "why", "steps", "ribbon_1", "compare", "box", "specs", "faq", "buyband", "ribbon_2", "related"]
 }

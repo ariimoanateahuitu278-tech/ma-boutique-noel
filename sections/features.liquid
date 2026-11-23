@@ -2,7 +2,7 @@
   <div class="page-width">
     <h2 class="section-title" id="FeaturesTitle-{{ section.id }}">{{ section.settings.title | escape }}</h2>
     {%- if section.settings.text != blank -%}<p class="section-intro">{{ section.settings.text | escape }}</p>{%- endif -%}
-    <ul class="features{% if section.blocks.size == 4 %} features--4{% endif %}" role="list">
+    <ul class="features{% if section.blocks.size == 4 %} features--4{% elsif section.blocks.size == 3 %} features--3{% endif %}" role="list">
       {%- for block in section.blocks -%}
         <li class="feature" data-reveal {{ block.shopify_attributes }}>
           <span class="feature__icon">{%- render 'icon', name: block.settings.icon -%}</span>
@@ -34,7 +34,8 @@
     { "type": "item", "name": "Argument", "settings": [
       { "type": "select", "id": "icon", "label": "Icône", "default": "gift", "options": [
         { "value": "gift", "label": "Cadeau" }, { "value": "truck", "label": "Camion" }, { "value": "return", "label": "Retour" },
-        { "value": "lock", "label": "Cadenas" }, { "value": "mail", "label": "E-mail" }, { "value": "star", "label": "Étoile" } ] },
+        { "value": "lock", "label": "Cadenas" }, { "value": "mail", "label": "E-mail" }, { "value": "star", "label": "Étoile" },
+        { "value": "microscope", "label": "Microscope" }, { "value": "pen", "label": "Stylo" }, { "value": "snowflake", "label": "Flocon" } ] },
       { "type": "text", "id": "title", "label": "Titre", "default": "Argument" },
       { "type": "textarea", "id": "text", "label": "Texte (sans chiffre inventé)" }
     ] }

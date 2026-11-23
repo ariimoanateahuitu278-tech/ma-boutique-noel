@@ -1,0 +1,24 @@
+{%- comment -%} « Dans la boîte » : affiché uniquement si le contenu est connu (métachamp custom.dans_la_boite, un élément par ligne). {%- endcomment -%}
+{%- liquid
+  capture raw
+    render 'product-text', product: product, field: 'box'
+  endcapture
+  assign raw = raw | strip
+-%}
+{%- if raw != blank -%}
+  <section class="section bg-white" aria-labelledby="BoxTitle-{{ section.id }}">
+    <div class="page-width" style="max-width:760px">
+      <h2 class="section-title" id="BoxTitle-{{ section.id }}">Dans la boîte</h2>
+      <ul class="benefits box-list" role="list" style="margin-top:24px">
+        {%- assign items = raw | split: '~~' -%}
+        {%- for item in items -%}
+          {%- assign t = item | strip -%}
+          {%- if t != blank -%}<li><span class="check">{%- render 'icon', name: 'check' -%}</span><span>{{ t }}</span></li>{%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </section>
+{%- endif -%}
+{% schema %}
+{ "name": "Dans la boîte", "settings": [] }
+{% endschema %}

@@ -1,0 +1,30 @@
+{%- comment -%} « Comment l'utiliser » : affiché uniquement si l'usage du produit est décrit (sinon, rien ne s'affiche). {%- endcomment -%}
+{%- liquid
+  capture raw
+    render 'product-text', product: product, field: 'steps'
+  endcapture
+  assign raw = raw | strip
+  assign icons = 'click,star,gift' | split: ','
+-%}
+{%- if raw != blank -%}
+  {%- assign items = raw | split: '~~' -%}
+  <section class="section bg-white" aria-labelledby="HowTitle-{{ section.id }}">
+    <div class="page-width">
+      <h2 class="section-title" id="HowTitle-{{ section.id }}">{{ section.settings.title | escape }}</h2>
+      <ol class="steps" style="margin-top:28px">
+        {%- for item in items limit: 3 -%}
+          {%- assign f = item | split: '|' -%}
+          <li class="step" data-reveal>
+            <span class="step__num" aria-hidden="true">{{ forloop.index }}</span>
+            <span class="step__icon">{%- render 'icon', name: icons[forloop.index0] -%}</span>
+            <h3>{{ f[0] }}</h3>
+            <p>{{ f[1] }}</p>
+          </li>
+        {%- endfor -%}
+      </ol>
+    </div>
+  </section>
+{%- endif -%}
+{% schema %}
+{ "name": "Comment l'utiliser", "settings": [ { "type": "text", "id": "title", "label": "Titre", "default": "Comment l'utiliser" } ] }
+{% endschema %}

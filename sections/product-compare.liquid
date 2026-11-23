@@ -1,0 +1,39 @@
+{%- liquid
+  capture raw
+    render 'product-text', product: product, field: 'compare'
+  endcapture
+  assign raw = raw | strip
+-%}
+{%- if raw != blank -%}
+  {%- assign rows = raw | split: '~~' -%}
+  <section class="section" aria-labelledby="CompareTitle-{{ section.id }}">
+    <div class="page-width">
+      <h2 class="section-title" id="CompareTitle-{{ section.id }}">Ce produit comparé à la solution habituelle</h2>
+      <p class="section-intro">{{ product.title | escape }} face à {{ rows[0] | downcase }}.</p>
+      <div class="compare" data-reveal>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col"><span class="visually-hidden">Critère</span></th>
+              <th scope="col" class="compare__us">{{ product.title | escape }}</th>
+              <th scope="col" class="compare__them">{{ rows[0] }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for row in rows offset: 1 limit: 4 -%}
+              {%- assign f = row | split: '|' -%}
+              <tr>
+                <th scope="row">{{ f[0] }}</th>
+                <td class="compare__us"><span class="check">{%- render 'icon', name: 'check' -%}</span>{{ f[1] }}</td>
+                <td class="compare__them">{{ f[2] }}</td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+{% schema %}
+{ "name": "Comparatif", "settings": [] }
+{% endschema %}

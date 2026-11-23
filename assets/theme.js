@@ -199,7 +199,7 @@
     var whopOffers = $$('[data-whop-offer]', section);
     whopOffers.forEach(function (input) {
       input.addEventListener('change', function () {
-        whopOffers.forEach(function (o) { o.closest('.offer').classList.toggle('is-selected', o.checked); });
+        whopOffers.forEach(function (o) { o.closest('.offer-card').classList.toggle('is-selected', o.checked); });
         $$('[data-whop-buy]').forEach(function (a) { a.setAttribute('href', input.value); });
       });
     });
@@ -231,13 +231,13 @@
         var target = String(Math.min(q, 3));
         offers.forEach(function (o) { o.checked = o.value === target; });
       }
-      offers.forEach(function (o) { o.closest('.offer').classList.toggle('is-selected', o.checked); });
+      offers.forEach(function (o) { o.closest('.offer-card').classList.toggle('is-selected', o.checked); });
       var unit = getUnit();
       if (unit !== null) {
         if (totalEl) totalEl.textContent = formatMoney(offers.length ? computeTotal(q, unit) : unit * q);
         $$('[data-offer-total]', form).forEach(function (el) {
           var n = Number(el.getAttribute('data-offer-total'));
-          el.firstChild.nodeValue = formatMoney(computeTotal(n, unit));
+          el.textContent = formatMoney(computeTotal(n, unit));
         });
       }
     }
@@ -296,12 +296,23 @@
         .then(function () { addBtn.disabled = false; addBtn.textContent = original; });
     });
 
-    var sticky = $('[data-sticky-add]');
-    if (sticky) sticky.addEventListener('click', function () {
-      if (form.requestSubmit) form.requestSubmit(); else addBtn.click();
+    $$('[data-sticky-add]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (form.requestSubmit) form.requestSubmit(); else addBtn.click();
+      });
     });
     sync(false);
   });
+
+  /* ---------- Barre d'achat : visible en haut (ordinateur) une fois le bouton principal dépassé ---------- */
+  var stickyBar = $('[data-sticky-buy]');
+  var mainBuy = $('[data-main-buy]');
+  if (stickyBar && mainBuy && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      var e = entries[0];
+      stickyBar.classList.toggle('is-shown', !e.isIntersecting && e.boundingClientRect.top < 0);
+    }).observe(mainBuy);
+  }
 
   /* ---------- Panier latéral ---------- */
   var drawer = $('#CartDrawer');

@@ -1,0 +1,28 @@
+{%- comment -%}
+  Carte d'offre de quantité. Paramètres : n (1, 2 ou 3), value, name, total (centimes), image, product, checked, whop.
+  La remise est réelle (5 % ou 10 % du prix de vente) et affichée en pourcentage, jamais en faux prix barré.
+{%- endcomment -%}
+<label class="offer-card{% if checked %} is-selected{% endif %}">
+  {%- if whop -%}
+    <input type="radio" name="offer-{{ name }}" value="{{ value }}" data-whop-offer{% if checked %} checked{% endif %}>
+  {%- else -%}
+    <input type="radio" name="offer-{{ name }}" value="{{ value }}" data-offer{% if checked %} checked{% endif %}>
+  {%- endif -%}
+  {%- if n == 3 -%}<span class="offer-card__best">Meilleure remise</span>{%- endif -%}
+  <span class="offer-card__imgs offer-card__imgs--{{ n }}" aria-hidden="true">
+    {%- if image -%}
+      {%- for i in (1..n) -%}{{ image | image_url: width: 120, height: 120, crop: 'center' | image_tag: loading: 'lazy', alt: '' }}{%- endfor -%}
+    {%- endif -%}
+  </span>
+  <span class="offer-card__label">{{ n }} article{% if n > 1 %}s{% endif %}</span>
+  {%- if n == 1 -%}
+    <span class="offer-card__discount offer-card__discount--none">Prix unitaire</span>
+  {%- elsif n == 2 -%}
+    <span class="offer-card__discount">-5 %</span>
+  {%- else -%}
+    <span class="offer-card__discount">-10 %</span>
+  {%- endif -%}
+  <span class="offer-card__total"><span data-offer-total="{{ n }}">{{ total | money }}</span></span>
+  <span class="offer-card__tax">TTC{% if n > 1 %} au total{% endif %}</span>
+  <span class="visually-hidden">{{ product.title | escape }}</span>
+</label>

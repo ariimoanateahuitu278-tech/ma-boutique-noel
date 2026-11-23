@@ -32,11 +32,12 @@
   assign price = current_variant.price
   assign price_2 = price | times: 2 | times: 0.95 | round
   assign price_3 = price | times: 3 | times: 0.90 | round
+  assign offer_img = product.featured_image
 
-  capture vigilance
-    render 'product-text', product: product, field: 'vigilance'
+  capture benefits_raw
+    render 'product-text', product: product, field: 'benefits'
   endcapture
-  assign vigilance = vigilance | strip
+  assign benefits = benefits_raw | strip | split: '~~'
 -%}
 
 {%- render 'garland', class: 'product__garland' -%}
@@ -44,8 +45,8 @@
 <section class="product page-width" data-product-section data-section-id="{{ section.id }}">
   <div class="product__grid">
 
-    {%- comment -%} ===== Colonne gauche : galerie ===== {%- endcomment -%}
-    <div class="product__gallery" data-gallery>
+    {%- comment -%} ===== Colonne gauche : galerie (miniatures en colonne sur ordinateur) ===== {%- endcomment -%}
+    <div class="product__gallery gallery{% if product.media.size > 1 %} gallery--has-thumbs{% endif %}" data-gallery>
       <div class="gallery__main">
         {%- if product.media.size > 0 -%}
           {%- for media in product.media -%}
@@ -53,7 +54,7 @@
               {%- case media.media_type -%}
                 {%- when 'image' -%}
                   {%- if forloop.first -%}{%- assign img_loading = 'eager' -%}{%- else -%}{%- assign img_loading = 'lazy' -%}{%- endif -%}
-                  {{ media | image_url: width: 1400 | image_tag: loading: img_loading, widths: '480, 720, 960, 1200, 1400', sizes: '(min-width: 990px) 600px, 100vw', alt: media.alt | default: product.title }}
+                  {{ media | image_url: width: 1400 | image_tag: loading: img_loading, widths: '480, 720, 960, 1200, 1400', sizes: '(min-width: 990px) 560px, 100vw', alt: media.alt | default: product.title }}
                 {%- when 'video' -%}
                   {{ media | media_tag: image_size: '1200x', controls: true, playsinline: true, preload: 'none' }}
                 {%- when 'external_video' -%}
@@ -63,6 +64,7 @@
               {%- endcase -%}
             </div>
           {%- endfor -%}
+          <span class="gallery__loupe" aria-hidden="true" title="Passe la souris sur la photo pour zoomer">{%- render 'icon', name: 'search' -%}</span>
           {%- if product.media.size > 1 -%}
             <button type="button" class="gallery__arrow gallery__arrow--prev" data-gallery-prev aria-label="Photo précédente">{%- render 'icon', name: 'chevron-left' -%}</button>
             <button type="button" class="gallery__arrow gallery__arrow--next" data-gallery-next aria-label="Photo suivante">{%- render 'icon', name: 'chevron-right' -%}</button>
@@ -91,7 +93,6 @@
         <h1 class="product__title">{{ product.title | escape }}</h1>
         {%- render 'baubles', class: 'baubles--dark baubles--small', count: 5 -%}
       </div>
-      <p class="product__hook">{%- render 'product-text', product: product, field: 'hook' -%}</p>
 
       <div class="product__price">
         <span class="product__price-amount" data-unit-price>{{ price | money }}</span>
@@ -99,13 +100,12 @@
       </div>
 
       <ul class="benefits" role="list">
-        {%- render 'product-text', product: product, field: 'benefits' -%}
-        {%- if settings.free_shipping_text != blank -%}
-          <li><span class="check">{%- render 'icon', name: 'check' -%}</span><span>{{ settings.free_shipping_text | escape }}</span></li>
-        {%- endif -%}
-        <li><span class="check">{%- render 'icon', name: 'check' -%}</span><span>Retours sous 14 jours après réception</span></li>
-        <li><span class="check">{%- render 'icon', name: 'check' -%}</span><span>Paiement sécurisé</span></li>
-        <li><span class="check">{%- render 'icon', name: 'check' -%}</span><span>Service client par e-mail</span></li>
+        {%- for b in benefits limit: 8 -%}
+          {%- assign t = b | strip -%}
+          {%- if t != blank -%}
+            <li><span class="check">{%- render 'icon', name: 'check' -%}</span><span>{{ t }}</span></li>
+          {%- endif -%}
+        {%- endfor -%}
       </ul>
 
       {%- if use_whop -%}
@@ -114,28 +114,11 @@
           {%- if show_offers -%}
             <fieldset class="offers">
               <legend>Choisis ton offre</legend>
-              <label class="offer is-selected">
-                <input type="radio" name="offer-{{ section.id }}" value="{{ whop_1 }}" data-whop-offer checked>
-                <span class="offer__radio" aria-hidden="true"></span>
-                <span class="offer__label">1 article</span>
-                <span class="offer__total">{{ price | money }}<small>TTC</small></span>
-              </label>
-              {%- if whop_2 != blank -%}
-                <label class="offer">
-                  <input type="radio" name="offer-{{ section.id }}" value="{{ whop_2 }}" data-whop-offer>
-                  <span class="offer__radio" aria-hidden="true"></span>
-                  <span class="offer__label">2 articles <span class="offer__badge">-5 %</span></span>
-                  <span class="offer__total">{{ price_2 | money }}<small>TTC au total</small></span>
-                </label>
-              {%- endif -%}
-              {%- if whop_3 != blank -%}
-                <label class="offer">
-                  <input type="radio" name="offer-{{ section.id }}" value="{{ whop_3 }}" data-whop-offer>
-                  <span class="offer__radio" aria-hidden="true"></span>
-                  <span class="offer__label">3 articles <span class="offer__badge">-10 %</span></span>
-                  <span class="offer__total">{{ price_3 | money }}<small>TTC au total</small></span>
-                </label>
-              {%- endif -%}
+              <div class="offers__grid">
+                {%- render 'offer-card', n: 1, value: whop_1, name: section.id, total: price, image: offer_img, product: product, checked: true, whop: true -%}
+                {%- if whop_2 != blank -%}{%- render 'offer-card', n: 2, value: whop_2, name: section.id, total: price_2, image: offer_img, product: product, whop: true -%}{%- endif -%}
+                {%- if whop_3 != blank -%}{%- render 'offer-card', n: 3, value: whop_3, name: section.id, total: price_3, image: offer_img, product: product, whop: true -%}{%- endif -%}
+              </div>
             </fieldset>
           {%- endif -%}
           <a href="{{ whop_1 }}" class="btn btn--primary btn--block btn--lg" data-whop-buy data-main-buy rel="noopener">Acheter</a>
@@ -143,6 +126,7 @@
       {%- else -%}
         {%- form 'product', product, id: 'ProductForm', class: 'product-form', data-product-form: '', novalidate: 'novalidate' -%}
           <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id data-price="{{ current_variant.price }}">
+          <input type="hidden" name="quantity" value="1" data-qty-input>
 
           {%- if show_variant_picker -%}
             {%- for option in product.options_with_values -%}
@@ -166,38 +150,14 @@
           {%- if show_offers -%}
             <fieldset class="offers" data-offers>
               <legend>Choisis ton offre</legend>
-              <label class="offer is-selected">
-                <input type="radio" name="offer" value="1" data-offer checked>
-                <span class="offer__radio" aria-hidden="true"></span>
-                <span class="offer__label">1 article</span>
-                <span class="offer__total" data-offer-total="1">{{ price | money }}<small>TTC</small></span>
-              </label>
-              <label class="offer">
-                <input type="radio" name="offer" value="2" data-offer>
-                <span class="offer__radio" aria-hidden="true"></span>
-                <span class="offer__label">2 articles <span class="offer__badge">-5 %</span></span>
-                <span class="offer__total" data-offer-total="2">{{ price_2 | money }}<small>TTC au total</small></span>
-              </label>
-              <label class="offer">
-                <input type="radio" name="offer" value="3" data-offer>
-                <span class="offer__radio" aria-hidden="true"></span>
-                <span class="offer__label">3 articles <span class="offer__badge">-10 %</span></span>
-                <span class="offer__total" data-offer-total="3">{{ price_3 | money }}<small>TTC au total</small></span>
-              </label>
+              <div class="offers__grid">
+                {%- render 'offer-card', n: 1, value: 1, name: section.id, total: price, image: offer_img, product: product, checked: true -%}
+                {%- render 'offer-card', n: 2, value: 2, name: section.id, total: price_2, image: offer_img, product: product -%}
+                {%- render 'offer-card', n: 3, value: 3, name: section.id, total: price_3, image: offer_img, product: product -%}
+              </div>
             </fieldset>
           {%- endif -%}
 
-          <div class="buy-row">
-            <div class="qty">
-              <button type="button" data-qty-minus aria-label="Diminuer la quantité">−</button>
-              <label for="Quantity-{{ section.id }}" class="visually-hidden">Quantité</label>
-              <input type="number" id="Quantity-{{ section.id }}" name="quantity" value="1" min="1" max="99" inputmode="numeric" data-qty-input>
-              <button type="button" data-qty-plus aria-label="Augmenter la quantité">+</button>
-            </div>
-          </div>
-          {%- if show_offers -%}
-            <p class="buy-total">Total : <span data-buy-total>{{ price | money }}</span> TTC</p>
-          {%- endif -%}
           <button type="submit" name="add" class="btn btn--primary btn--block btn--lg" data-add-to-cart data-main-buy{% unless current_variant.available %} disabled{% endunless %}>
             {%- if current_variant.available -%}Ajouter au panier{%- else -%}Épuisé{%- endif -%}
           </button>
@@ -206,76 +166,25 @@
       {%- endif -%}
 
       <div style="margin-top:12px">{%- render 'payment-means' -%}</div>
-
-      <ul class="reassure" role="list">
-        <li>{%- render 'icon', name: 'truck' -%}<span>{{ settings.free_shipping_text | default: 'Livraison suivie' | escape }}</span></li>
-        <li>{%- render 'icon', name: 'return' -%}<span>Retours sous 14 jours</span></li>
-        <li>{%- render 'icon', name: 'lock' -%}<span>Paiement sécurisé</span></li>
-      </ul>
-
-      <details class="accordion" open>
-        <summary>Description</summary>
-        <div class="accordion__content">
-          {%- if product.description != blank -%}{{ product.description }}{%- endif -%}
-          {%- if vigilance != blank -%}<p class="notice"><strong>Bon à savoir :</strong> {{ vigilance }}</p>{%- endif -%}
-        </div>
-      </details>
-
-      <details class="accordion">
-        <summary>Caractéristiques</summary>
-        <div class="accordion__content">
-          <ul class="spec-list">{%- render 'product-text', product: product, field: 'specs' -%}</ul>
-        </div>
-      </details>
-
-      <details class="accordion">
-        <summary>Livraison et retours</summary>
-        <div class="accordion__content">
-          {%- if mf.delais_livraison != blank and mf.delais_livraison.value contains 'COMPLÉTER' -%}{%- assign has_delay = false -%}{%- elsif mf.delais_livraison != blank -%}{%- assign has_delay = true -%}{%- else -%}{%- assign has_delay = false -%}{%- endif -%}
-          {%- if has_delay -%}
-            <p><strong>Livraison :</strong> {{ mf.delais_livraison.value | escape }}</p>
-          {%- else -%}
-            <p><strong>Livraison :</strong> les délais de livraison vers la France sont détaillés sur notre page <a href="/pages/livraison-et-retours">Livraison et retours</a>.</p>
-          {%- endif -%}
-          <p><strong>Retours :</strong> tu as 14 jours après réception pour changer d'avis. <a href="/pages/politique-de-retour">Voir la politique de retour</a>.</p>
-          <p><a href="/pages/retractation" class="withdraw-btn withdraw-btn--red">Se rétracter du contrat</a></p>
-        </div>
-      </details>
-
-      <details class="accordion">
-        <summary>Informations sur le fabricant</summary>
-        <div class="accordion__content">
-          <p><strong>Nom du fabricant :</strong> {{ mf.fabricant_nom.value | default: '[À COMPLÉTER]' | escape }}</p>
-          <p><strong>Adresse :</strong> {{ mf.fabricant_adresse.value | default: '[À COMPLÉTER]' | escape }}</p>
-          <p><strong>Personne responsable dans l'UE :</strong> {{ mf.fabricant_responsable_ue.value | default: '[À COMPLÉTER]' | escape }}</p>
-        </div>
-      </details>
-    </div>
-  </div>
-
-  {%- comment -%} ===== Questions fréquentes du produit ===== {%- endcomment -%}
-  <div class="section--tight" style="margin-top:40px">
-    <h2 class="section-title">Questions fréquentes</h2>
-    <div class="faq" style="margin-top:20px">
-      {%- render 'product-text', product: product, field: 'faq' -%}
-      <details class="accordion"><summary>Quels sont les délais de livraison ?</summary><div class="accordion__content"><p>Les délais réels sont indiqués sur la page <a href="/pages/livraison-et-retours">Livraison et retours</a>. Consulte-la avant de commander, surtout à l'approche de Noël.</p></div></details>
-      <details class="accordion"><summary>Puis-je le retourner ?</summary><div class="accordion__content"><p>Oui, tu as 14 jours après réception pour changer d'avis. Utilise le bouton « Se rétracter du contrat » en bas de chaque page.</p></div></details>
-      <details class="accordion"><summary>Le prix affiché est-il le prix final ?</summary><div class="accordion__content"><p>Le prix est affiché TTC. Les éventuels frais de livraison sont indiqués avant le paiement.</p></div></details>
+      {%- render 'reassure-cards' -%}
     </div>
   </div>
 </section>
 
-{%- comment -%} ===== Barre d'achat collée en bas (mobile) ===== {%- endcomment -%}
+{%- comment -%} ===== Barre d'achat : en bas sur mobile, en haut sur ordinateur après la galerie ===== {%- endcomment -%}
 <div class="sticky-buy" data-sticky-buy>
-  <div class="sticky-buy__info">
-    <div class="sticky-buy__title">{{ product.title | escape }}</div>
-    <div class="sticky-buy__price">{{ price | money }} TTC</div>
+  <div class="page-width sticky-buy__inner">
+    {%- if offer_img -%}{{ offer_img | image_url: width: 120, height: 120, crop: 'center' | image_tag: class: 'sticky-buy__img', loading: 'lazy', alt: '' }}{%- endif -%}
+    <div class="sticky-buy__info">
+      <div class="sticky-buy__title">{{ product.title | escape }}</div>
+      <div class="sticky-buy__price">{{ price | money }} TTC</div>
+    </div>
+    {%- if use_whop -%}
+      <a href="{{ whop_1 }}" class="btn btn--primary" data-whop-buy rel="noopener">Acheter</a>
+    {%- else -%}
+      <button type="button" class="btn btn--primary" data-sticky-add{% unless current_variant.available %} disabled{% endunless %}>Ajouter au panier</button>
+    {%- endif -%}
   </div>
-  {%- if use_whop -%}
-    <a href="{{ whop_1 }}" class="btn btn--primary" data-whop-buy rel="noopener">Acheter</a>
-  {%- else -%}
-    <button type="button" class="btn btn--primary" data-sticky-add{% unless current_variant.available %} disabled{% endunless %}>Ajouter au panier</button>
-  {%- endif -%}
 </div>
 
 <script type="application/ld+json">

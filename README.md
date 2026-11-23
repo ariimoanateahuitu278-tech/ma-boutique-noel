@@ -1,4 +1,4 @@
-# Noël Magique — thème Shopify (étape 1 sur 3 : la base)
+# Noël Magique — thème Shopify (étapes 1 et 2 sur 3)
 
 Ce dépôt contient **le thème complet de ta boutique Shopify « Noël Magique »**, prêt à installer, plus le fichier d'import des 3 produits et le texte de toutes les pages.
 
@@ -34,7 +34,18 @@ Ce dépôt contient **le thème complet de ta boutique Shopify « Noël Magique 
 | Délais de livraison | `custom.delais_livraison` | Texte sur une ligne | Facultatif |
 | Caractéristiques | `custom.caracteristiques` | Texte multiligne | Facultatif : une caractéristique vérifiée par ligne |
 
-Facultatifs pour personnaliser les textes de la fiche : `custom.surtitre`, `custom.accroche` (texte sur une ligne), `custom.avantages`, `custom.point_vigilance` (texte multiligne, un avantage par ligne).
+Facultatifs pour personnaliser la fiche produit :
+
+| Nom | Code | Type | Effet |
+|---|---|---|---|
+| Photo en situation | `custom.photo_situation` | Fichier (image) | Fond de la bannière plein écran (sinon, une photo du produit) |
+| Titre de bannière | `custom.titre_banniere` | Texte sur une ligne | Remplace le titre de la bannière |
+| Avantages | `custom.avantages` | Texte multiligne | Remplace les 6 avantages (un par ligne) |
+| Étapes d'utilisation | `custom.etapes` | Texte multiligne | Affiche « Comment l'utiliser » : une étape par ligne, au format `Titre|Texte` |
+| Dans la boîte | `custom.dans_la_boite` | Texte multiligne | Affiche « Dans la boîte » : un élément par ligne |
+| Surtitre, point de vigilance | `custom.surtitre`, `custom.point_vigilance` | Texte | Remplacent les textes par défaut |
+
+Les sections « Comment l'utiliser » et « Dans la boîte » restent **cachées** tant que l'information n'est pas renseignée (seul le chauffe-mains a des étapes, tirées de sa description). Pour une vidéo (bouton « Voir la vidéo »), ajoute-la simplement dans les médias du produit.
 
 ### 3. Importer les produits
 **Produits > Importer** > choisis `contenu/produits-shopify.csv`. Shopify télécharge lui-même les photos. Vérifie ensuite chaque produit : prix, photo, texte alternatif.
@@ -102,10 +113,14 @@ Le thème a son propre bandeau (Accepter / Refuser à égalité), relié à l'ou
 - [ ] Les photos supplémentaires et vidéos de chaque produit (uniquement des visuels sans texte ni logo).
 - [ ] Tes moyens de paiement : active-les (Whop et/ou Shopify Payments) et fais une commande test.
 - [ ] Vérifie que « Livraison offerte » est vrai, sinon modifie-le partout (bandeau, hero, barre de confiance, bandeau défilant, réglages).
+- [ ] Vérifie que la livraison est bien **suivie** (numéro de suivi ajouté à chaque expédition) : la fiche produit et « Nos engagements » l'annoncent.
+- [ ] Ce qui est livré dans chaque boîte → métachamp « Dans la boîte » (la section apparaîtra toute seule).
+- [ ] Une vraie photo de chaque produit en situation (sans texte ni logo) → métachamp « Photo en situation ».
 
 ## Ce que fait le thème
 - **Accueil** : bandeau d'annonce rouge, en-tête (logo, menu, recherche, panier avec pastille), hero sombre en dégradé avec photo produit, boules de Noël et bonhomme de neige au survol des boutons, bandeau défilant, barre de confiance, grille produits (2e photo au survol, cœur, étiquette « Idée cadeau », bouton « Voir le produit »), « Pourquoi nous choisir » avec liens d'aide, « Comment ça marche », FAQ en accordéon, pied de page complet.
-- **Fiche produit** : 2 colonnes sur ordinateur (galerie avec miniatures, flèches et zoom au mouvement de la souris), avantages avec coches vertes, offres de quantité avec vraies remises calculées, sélecteur de quantité, « Ajouter au panier » (ou « Acheter » via Whop), moyens de paiement, pastilles de réassurance, sections repliables (Description avec point de vigilance, Caractéristiques, Livraison et retours, Informations sur le fabricant), FAQ produit, « Vous aimerez aussi », bouton d'achat collé en bas sur mobile.
+- **Fiche produit** : 2 colonnes sur ordinateur (galerie avec miniatures en colonne, flèches, loupe et zoom au mouvement de la souris), 6 avantages avec coches vertes, 3 cartes d'offres (1, 2 : -5 %, 3 : -10 % « Meilleure remise ») avec vraies remises calculées, « Ajouter au panier » (ou « Acheter » via Whop), moyens de paiement, 3 cartes de réassurance. Puis : bannière plein écran, « Pourquoi vous allez l'aimer » (4 blocs image/texte), « Comment l'utiliser » (si l'usage est connu), comparatif avec la solution habituelle, « Dans la boîte » (si connu), tableau de caractéristiques avec point de vigilance, livraison/retours et informations du fabricant (GPSR), FAQ (7 questions), bandeau d'achat final, « Vous aimerez aussi ». Barre d'achat visible en bas sur mobile et en haut sur ordinateur.
+- **Accueil (étape 2)** : hero plein écran, « Pourquoi ces idées cadeaux » en 3 colonnes, « Notre sélection », « Nos engagements » (à la place de tout avis client).
 - **Panier latéral** qui glisse depuis la droite, avec total réel et bouton « Commander ».
 - **Ambiance** : guirlande lumineuse, neige visible (une cinquantaine de flocons, coupée si l'appareil demande moins d'animations), rubans canne en sucre entre les sections.
 - **Pages** : catalogue, recherche, 404, contact, rétractation, pages légales. Balises SEO (titre, description) sur chaque page.

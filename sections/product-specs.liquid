@@ -1,0 +1,68 @@
+{%- liquid
+  assign mf = product.metafields.custom
+  capture raw
+    render 'product-text', product: product, field: 'specs'
+  endcapture
+  assign rows = raw | strip | split: '~~'
+  capture vigilance
+    render 'product-text', product: product, field: 'vigilance'
+  endcapture
+  assign vigilance = vigilance | strip
+-%}
+<section class="section bg-white" aria-labelledby="SpecsTitle-{{ section.id }}">
+  <div class="page-width" style="max-width:860px">
+    <h2 class="section-title" id="SpecsTitle-{{ section.id }}">Caractéristiques</h2>
+    <table class="specs" style="margin-top:24px">
+      <tbody>
+        {%- for row in rows -%}
+          {%- assign f = row | split: '|' -%}
+          {%- if f[0] != blank -%}<tr><th scope="row">{{ f[0] }}</th><td>{{ f[1] }}</td></tr>{%- endif -%}
+        {%- endfor -%}
+        {%- if mf.caracteristiques != blank -%}
+          {%- assign extra = mf.caracteristiques.value | newline_to_br | split: '<br />' -%}
+          {%- for e in extra -%}
+            {%- assign t = e | strip -%}
+            {%- if t != blank -%}
+              {%- if t contains ':' -%}
+                {%- assign label = t | split: ':' | first | strip -%}
+                {%- assign val = t | remove_first: label | remove_first: ':' | strip -%}
+                <tr><th scope="row">{{ label | escape }}</th><td>{{ val | escape }}</td></tr>
+              {%- else -%}
+                <tr><td colspan="2">{{ t | escape }}</td></tr>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </tbody>
+    </table>
+
+    {%- if vigilance != blank -%}<p class="notice" style="margin-top:20px"><strong>Bon à savoir :</strong> {{ vigilance }}</p>{%- endif -%}
+
+    <div style="margin-top:20px">
+      <details class="accordion">
+        <summary>Livraison et retours</summary>
+        <div class="accordion__content">
+          {%- if mf.delais_livraison != blank and mf.delais_livraison.value contains 'COMPLÉTER' -%}{%- assign has_delay = false -%}{%- elsif mf.delais_livraison != blank -%}{%- assign has_delay = true -%}{%- else -%}{%- assign has_delay = false -%}{%- endif -%}
+          {%- if has_delay -%}
+            <p><strong>Livraison :</strong> {{ mf.delais_livraison.value | escape }}</p>
+          {%- else -%}
+            <p><strong>Livraison :</strong> les délais de livraison vers la France sont détaillés sur notre page <a href="/pages/livraison-et-retours">Livraison et retours</a>.</p>
+          {%- endif -%}
+          <p><strong>Retours :</strong> tu as 14 jours après réception pour changer d'avis. <a href="/pages/politique-de-retour">Voir la politique de retour</a>.</p>
+          <p><a href="/pages/retractation" class="withdraw-btn withdraw-btn--red">Se rétracter du contrat</a></p>
+        </div>
+      </details>
+      <details class="accordion">
+        <summary>Informations sur le fabricant</summary>
+        <div class="accordion__content">
+          <p><strong>Nom du fabricant :</strong> {{ mf.fabricant_nom.value | default: '[À COMPLÉTER]' | escape }}</p>
+          <p><strong>Adresse :</strong> {{ mf.fabricant_adresse.value | default: '[À COMPLÉTER]' | escape }}</p>
+          <p><strong>Personne responsable dans l'UE :</strong> {{ mf.fabricant_responsable_ue.value | default: '[À COMPLÉTER]' | escape }}</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Caractéristiques", "settings": [] }
+{% endschema %}

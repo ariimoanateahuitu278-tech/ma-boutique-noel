@@ -1,11 +1,17 @@
 {%- comment -%}
-  Textes de la fiche produit.
-  Chaque texte peut être remplacé depuis l'admin Shopify par un métachamp produit
-  (custom.surtitre, custom.accroche, custom.avantages, custom.point_vigilance,
-  custom.caracteristiques). Sinon, le texte par défaut ci-dessous est utilisé,
-  choisi d'après l'identifiant (handle) du produit.
-  Paramètres : product, field ('eyebrow' | 'hook' | 'benefits' | 'vigilance' | 'specs' | 'faq')
-  Les champs 'benefits' et 'specs' renvoient des <li>. 'faq' renvoie des <details>.
+  Textes de la fiche produit, rédigés UNIQUEMENT à partir des faits fournis sur chaque produit.
+  Chaque texte peut être remplacé depuis l'admin Shopify par un métachamp produit (voir README).
+  Paramètres : product, field.
+
+  Champs « données » (renvoient une chaîne, éléments séparés par ~~ et champs par |) :
+    'benefits'  → avantage~~avantage…
+    'why'       → surtitre|titre|texte~~…            (4 blocs maximum)
+    'steps'     → titre|texte~~…                      (vide si l'usage n'est pas décrit)
+    'compare'   → nom de la solution habituelle~~critère|produit|habituel~~…
+    'specs'     → libellé|valeur~~…
+    'box'       → élément~~élément…                   (vide si inconnu)
+  Champs texte : 'eyebrow', 'hook', 'banner', 'vigilance'.
+  Champ HTML : 'faq' (des <details>).
 {%- endcomment -%}
 {%- liquid
   assign key = 'autre'
@@ -29,36 +35,68 @@
       {{ mf.accroche.value | escape }}
     {%- else -%}
       {%- case key -%}
-        {%- when 'microscope' -%}Un microscope numérique qui tient dans la poche, pour partir à la découverte de l'infiniment petit.
-        {%- when 'stylo' -%}Un stylo 3D avec écran LED pour dessiner en relief et donner vie à ses idées.
-        {%- when 'chauffe' -%}Un chauffe-mains rechargeable qui se glisse dans la poche, pour garder les mains au chaud cet hiver.
+        {%- when 'microscope' -%}Un microscope de poche avec écran, pour observer le monde en grand.
+        {%- when 'stylo' -%}Un stylo 3D pour dessiner en relief, avec des filaments colorés.
+        {%- when 'chauffe' -%}Un chauffe-mains ultra fin et rechargeable, qui chauffe des deux côtés.
         {%- else -%}Une idée cadeau choisie avec soin pour les fêtes.
       {%- endcase -%}
     {%- endif -%}
 
+  {%- when 'banner' -%}
+    {%- if mf.titre_banniere != blank -%}
+      {{ mf.titre_banniere.value | escape }}
+    {%- else -%}
+      {%- case key -%}
+        {%- when 'microscope' -%}Le monde en grand, jusqu'à 1000x
+        {%- when 'stylo' -%}Dessine en relief, sans écran
+        {%- when 'chauffe' -%}La chaleur des deux côtés, réglable
+        {%- else -%}{{ product.title | escape }}
+      {%- endcase -%}
+    {%- endif -%}
+
   {%- when 'benefits' -%}
-    {%- liquid
-      if mf.avantages != blank
-        assign items = mf.avantages.value | newline_to_br | split: '<br />'
-      else
-        case key
-          when 'microscope'
-            assign items = 'Microscope numérique pour observer de tout près|Format de poche, facile à emporter partout|Pensé pour les enfants|Une idée cadeau qui éveille la curiosité' | split: '|'
-          when 'stylo'
-            assign items = 'Écran LED intégré|Pour dessiner en relief, en 3D|Pensé pour les enfants|Un cadeau créatif pour les fêtes' | split: '|'
-          when 'chauffe'
-            assign items = 'Rechargeable : pas de piles jetables à racheter|Format de poche, il se glisse partout|Pour garder les mains au chaud|Un cadeau pratique pour l’hiver' | split: '|'
-          else
-            assign items = 'Une idée cadeau choisie avec soin' | split: '|'
-        endcase
-      endif
-    -%}
-    {%- for item in items -%}
-      {%- assign t = item | strip -%}
-      {%- if t != blank -%}
-        <li><span class="check">{%- render 'icon', name: 'check' -%}</span><span>{{ t | escape }}</span></li>
-      {%- endif -%}
-    {%- endfor -%}
+    {%- if mf.avantages != blank -%}
+      {{- mf.avantages.value | escape | newline_to_br | replace: '<br />', '~~' | strip_newlines -}}
+    {%- else -%}
+      {%- case key -%}
+        {%- when 'microscope' -%}Grossissement jusqu'à 1000x~~Écran IPS de 2 pouces intégré~~8 lumières LED réglables~~Format de poche, facile à emporter~~Pensé pour les enfants~~Un cadeau de Noël éducatif
+        {%- when 'stylo' -%}Dessine en relief, en 3D~~Affichage LED intégré~~Fonctionne avec des filaments colorés~~Stylo électronique~~Pensé pour les enfants~~Un cadeau créatif, sans écran
+        {%- when 'chauffe' -%}Rechargeable, il se réutilise~~Ultra fin~~Chauffe sur ses deux faces~~Réglage de la chaleur~~Format de poche~~Utile l'hiver, pour le sport et les trajets
+      {%- endcase -%}
+    {%- endif -%}
+
+  {%- when 'why' -%}
+    {%- case key -%}
+      {%- when 'microscope' -%}Grossissement|Jusqu'à 1000x|Ce microscope de poche grossit jusqu'à 1000 fois. De quoi découvrir de tout près les petits détails du quotidien.~~Écran intégré|Un écran IPS de 2 pouces|L'image s'affiche directement sur l'écran du microscope. On observe sans coller son œil à un oculaire.~~Éclairage|8 lumières LED réglables|Huit LED éclairent ce que tu observes. Tu règles la lumière selon ce que tu regardes.~~Cadeau de Noël|Un cadeau éducatif|Il tient dans la poche et s'emporte partout. Un cadeau de Noël éducatif pour observer le monde réel.
+      {%- when 'stylo' -%}En relief|Dessiner en 3D|Le stylo 3D permet de dessiner en relief. Les dessins sortent de la feuille.~~Couleurs|Des filaments colorés|Il fonctionne avec des filaments colorés. De quoi créer en plusieurs couleurs.~~Affichage|Un affichage LED intégré|C'est un stylo électronique avec un affichage LED. Suis les consignes du fabricant pour bien l'utiliser.~~Cadeau de Noël|Un cadeau créatif, sans écran|Ni tablette ni console : on crée avec ses mains. Un cadeau de Noël créatif à glisser sous le sapin.
+      {%- when 'chauffe' -%}Rechargeable|Il se recharge et se réutilise|Ce chauffe-mains est rechargeable. Pas besoin de racheter des chauffe-mains jetables.~~Double face|La chaleur des deux côtés|Il chauffe sur ses deux faces. Tes mains profitent de la chaleur des deux côtés.~~Réglable|Tu choisis la chaleur|Grâce au réglage de chaleur, tu ajustes selon tes envies. Plus ou moins chaud, c'est toi qui décides.~~Ultra fin|Il se glisse partout|Ultra fin et de poche, il trouve sa place dans une poche ou un sac. Utile l'hiver, pour le sport et pendant les trajets.
+    {%- endcase -%}
+
+  {%- when 'steps' -%}
+    {%- if mf.etapes != blank -%}
+      {{- mf.etapes.value | escape | newline_to_br | replace: '<br />', '~~' | strip_newlines -}}
+    {%- else -%}
+      {%- case key -%}
+        {%- when 'chauffe' -%}Recharge-le|Avant la première utilisation, pense à le recharger.~~Règle la chaleur|Choisis le niveau de chaleur qui te convient.~~Glisse-le dans ta poche|Ultra fin, il t'accompagne l'hiver, au sport et dans les trajets.
+      {%- endcase -%}
+    {%- endif -%}
+
+  {%- when 'compare' -%}
+    {%- case key -%}
+      {%- when 'microscope' -%}Une loupe classique~~Grossissement|Jusqu'à 1000x|Simple grossissement de loupe~~Façon d'observer|Sur un écran IPS de 2 pouces|À l'œil, de très près~~Éclairage|8 lumières LED réglables intégrées|Selon le modèle~~Prix d'achat|{{ product.price | money }} TTC|Selon le modèle
+      {%- when 'stylo' -%}Des crayons de couleur~~Dessin|En relief, en 3D|À plat, sur papier~~Matière|Filaments colorés|Mines de couleur~~Affichage|Affichage LED intégré|Aucun~~Prix d'achat|{{ product.price | money }} TTC|Selon le modèle
+      {%- when 'chauffe' -%}Un chauffe-mains jetable~~Utilisation|Rechargeable, réutilisable|À usage unique~~Chaleur|Réglable|Non réglable~~Entretien|Il suffit de le recharger|À racheter après chaque usage~~Prix d'achat|{{ product.price | money }} TTC|À racheter régulièrement
+    {%- endcase -%}
+
+  {%- when 'specs' -%}
+    {%- case key -%}
+      {%- when 'microscope' -%}Type|Microscope numérique de poche~~Écran|IPS, 2 pouces~~Grossissement|Jusqu'à 1000x~~Éclairage|8 lumières LED réglables
+      {%- when 'stylo' -%}Type|Stylo 3D électronique~~Affichage|LED~~Matière d'impression|Filaments colorés
+      {%- when 'chauffe' -%}Type|Chauffe-mains de poche~~Alimentation|Rechargeable~~Format|Ultra fin~~Chauffe|Double face~~Chaleur|Réglable
+    {%- endcase -%}
+
+  {%- when 'box' -%}
+    {%- if mf.dans_la_boite != blank -%}{{- mf.dans_la_boite.value | escape | newline_to_br | replace: '<br />', '~~' | strip_newlines -}}{%- endif -%}
 
   {%- when 'vigilance' -%}
     {%- if mf.point_vigilance != blank -%}
@@ -71,38 +109,20 @@
       {%- endcase -%}
     {%- endif -%}
 
-  {%- when 'specs' -%}
-    {%- case key -%}
-      {%- when 'microscope' -%}
-        <li>Type : microscope numérique de poche</li>
-        <li>Pensé pour : les enfants</li>
-      {%- when 'stylo' -%}
-        <li>Type : stylo 3D</li>
-        <li>Écran : LED</li>
-        <li>Pensé pour : les enfants</li>
-      {%- when 'chauffe' -%}
-        <li>Type : chauffe-mains de poche</li>
-        <li>Alimentation : rechargeable</li>
-    {%- endcase -%}
-    {%- if mf.caracteristiques != blank -%}
-      {%- assign specs = mf.caracteristiques.value | newline_to_br | split: '<br />' -%}
-      {%- for s in specs -%}
-        {%- assign t = s | strip -%}
-        {%- if t != blank -%}<li>{{ t | escape }}</li>{%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
-
   {%- when 'faq' -%}
     {%- case key -%}
       {%- when 'microscope' -%}
+        <details class="accordion"><summary>Jusqu'à combien grossit-il ?</summary><div class="accordion__content"><p>Jusqu'à 1000x.</p></div></details>
+        <details class="accordion"><summary>Où s'affiche l'image ?</summary><div class="accordion__content"><p>Directement sur son écran IPS de 2 pouces, intégré au microscope.</p></div></details>
         <details class="accordion"><summary>Comment en prendre soin ?</summary><div class="accordion__content"><p>C'est un objet à manipuler avec soin. Après chaque utilisation, range-le dans un endroit sûr.</p></div></details>
-        <details class="accordion"><summary>Est-ce un bon cadeau de Noël ?</summary><div class="accordion__content"><p>C'est une idée originale pour celles et ceux qui aiment observer et découvrir. Le format de poche permet de l'emporter partout.</p></div></details>
       {%- when 'stylo' -%}
+        <details class="accordion"><summary>Avec quoi dessine-t-il ?</summary><div class="accordion__content"><p>Avec des filaments colorés, pour dessiner en relief.</p></div></details>
         <details class="accordion"><summary>Comment bien l'utiliser ?</summary><div class="accordion__content"><p>Suis les consignes du fabricant fournies avec le stylo, et lis-les avant la première utilisation.</p></div></details>
-        <details class="accordion"><summary>Que peut-on faire avec ?</summary><div class="accordion__content"><p>Dessiner en relief, en 3D : de quoi laisser parler sa créativité pendant les fêtes.</p></div></details>
+        <details class="accordion"><summary>Est-ce un cadeau sans écran ?</summary><div class="accordion__content"><p>Oui : on dessine avec ses mains. Le stylo a seulement un petit affichage LED.</p></div></details>
       {%- when 'chauffe' -%}
         <details class="accordion"><summary>Faut-il le charger avant de l'utiliser ?</summary><div class="accordion__content"><p>Oui. Pense à le recharger avant la première utilisation.</p></div></details>
-        <details class="accordion"><summary>Faut-il acheter des piles ?</summary><div class="accordion__content"><p>Non, il est rechargeable.</p></div></details>
+        <details class="accordion"><summary>Peut-on régler la chaleur ?</summary><div class="accordion__content"><p>Oui, il a un réglage de chaleur.</p></div></details>
+        <details class="accordion"><summary>Chauffe-t-il des deux côtés ?</summary><div class="accordion__content"><p>Oui, il chauffe sur ses deux faces.</p></div></details>
     {%- endcase -%}
 
 {%- endcase -%}
