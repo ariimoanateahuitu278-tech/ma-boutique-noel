@@ -13,8 +13,8 @@
     </ul>
     {%- if section.settings.show_help_links -%}
       <div class="help-links" style="margin-top:32px">
-        <a href="/pages/livraison-et-retours" class="btn btn--outline">Livraison et retours</a>
-        <a href="/pages/contact" class="btn btn--outline">Nous contacter</a>
+        <a href="{%- render 'page-url', handle: 'livraison-et-retours' -%}" class="btn btn--outline">Livraison et retours</a>
+        <a href="{%- render 'page-url', handle: 'contact' -%}" class="btn btn--outline">Nous contacter</a>
       </div>
     {%- endif -%}
   </div>

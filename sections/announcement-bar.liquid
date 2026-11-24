@@ -1,8 +1,9 @@
 <div class="announcement" role="region" aria-label="Annonce">
-  {%- if section.settings.link != blank -%}<a href="{{ section.settings.link }}">{%- endif -%}
+  {%- capture ann_url -%}{%- if section.settings.link != blank -%}{{ section.settings.link }}{%- else -%}{%- render 'page-url', handle: 'livraison-et-retours' -%}{%- endif -%}{%- endcapture -%}
+  <a href="{{ ann_url | strip }}">
   <span>{{ section.settings.text_1 | escape }}</span>
   {%- if section.settings.text_2 != blank -%}<span class="announcement__sep" aria-hidden="true">✦</span><span>{{ section.settings.text_2 | escape }}</span>{%- endif -%}
-  {%- if section.settings.link != blank -%}</a>{%- endif -%}
+  </a>
 </div>
 
 {% schema %}
@@ -12,7 +13,7 @@
     { "type": "paragraph", "content": "N'affiche que des informations vraies. « Livraison offerte » suppose que la livraison est réglée à 0 € dans Paramètres > Expédition et livraison." },
     { "type": "text", "id": "text_1", "label": "Texte 1", "default": "🎁 Livraison offerte" },
     { "type": "text", "id": "text_2", "label": "Texte 2", "default": "Retours sous 14 jours" },
-    { "type": "url", "id": "link", "label": "Lien", "default": "/pages/livraison-et-retours" }
+    { "type": "url", "id": "link", "label": "Lien", "info": "Laisser vide pour pointer vers la page Livraison et retours." }
   ]
 }
 {% endschema %}

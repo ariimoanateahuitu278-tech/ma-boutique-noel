@@ -3,8 +3,10 @@
   <div class="page-width" style="max-width:760px">
     {%- if page.content != blank -%}<div class="rte" style="margin-bottom:24px">{{ page.content }}</div>{%- endif -%}
     <div class="box" style="margin-bottom:24px">
-      <p style="margin:0"><strong>Notre e-mail :</strong> {{ settings.contact_email | default: '[À COMPLÉTER]' | escape }}</p>
-      <p style="margin:6px 0 0">On répond à chaque message par e-mail. Pense à indiquer ton numéro de commande si tu en as un.</p>
+      {%- if settings.contact_email != blank and settings.contact_email contains '@' -%}
+        <p style="margin:0 0 6px"><strong>Notre e-mail :</strong> <a href="mailto:{{ settings.contact_email | escape }}">{{ settings.contact_email | escape }}</a></p>
+      {%- endif -%}
+      <p style="margin:0">On répond à chaque message par e-mail. Pense à indiquer ton numéro de commande si tu en as un.</p>
     </div>
     <div class="box">
       {%- form 'contact', id: 'ContactForm' -%}

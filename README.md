@@ -1,4 +1,4 @@
-# Noël Magique — thème Shopify (étapes 1 et 2 sur 3)
+# Noël Magique — thème Shopify (étapes 1, 2 et 3 : boutique complète)
 
 Ce dépôt contient **le thème complet de ta boutique Shopify « Noël Magique »**, prêt à installer, plus le fichier d'import des 3 produits et le texte de toutes les pages.
 
@@ -59,7 +59,7 @@ Les sections « Comment l'utiliser » et « Dans la boîte » restent **cachées
 (Autre option : **Ajouter un thème > Se connecter depuis GitHub**, et choisis ce dépôt et la branche.)
 
 ### 6. Personnaliser (Boutique en ligne > Thèmes > Personnaliser > Paramètres du thème)
-- **Boutique** : ton e-mail de contact, l'argument livraison (vide si la livraison n'est pas offerte), les moyens de paiement acceptés.
+- **Boutique** : ton e-mail de contact (tant qu'il est vide, les pages Contact et Rétractation n'affichent que le formulaire), l'argument livraison (vide si la livraison n'est pas offerte), les moyens de paiement acceptés.
 - **Paiement** : mode **Whop** (par défaut) ou **Shopify**.
 - **Accueil > Hero** : choisis le produit mis en avant et, si tu en as une, une photo du produit **en situation** (sans texte dessus). La vignette « Voir le produit en action » apparaît seulement si tu ajoutes une vidéo.
 - Vérifie que les textes du bandeau, des pastilles et de la barre de confiance sont **tous vrais** pour ta boutique.
@@ -125,3 +125,11 @@ Le thème a son propre bandeau (Accepter / Refuser à égalité), relié à l'ou
 - **Ambiance** : guirlande lumineuse, neige visible (une cinquantaine de flocons, coupée si l'appareil demande moins d'animations), rubans canne en sucre entre les sections.
 - **Pages** : catalogue, recherche, 404, contact, rétractation, pages légales. Balises SEO (titre, description) sur chaque page.
 - **Honnêteté** : aucun faux avis, compteur, compte à rebours, prix barré ou stock inventé. Aucun logo de marque. Le lien fournisseur n'est jamais affiché.
+
+## Finitions (étape 3)
+- **Liens toujours valides** : si une page (CGV, confidentialité, retours, livraison) n'est pas encore créée, le lien mène vers la politique Shopify équivalente (Paramètres > Politiques). La catégorie « Idées cadeaux » renvoie vers tout le catalogue tant qu'elle n'existe pas.
+- **Icône d'onglet** : initiales « NM » dans un cercle rouge (`assets/favicon.svg`, `favicon-64.png`, `apple-touch-icon.png`). Tu peux la remplacer dans Paramètres du thème > Boutique.
+- **Référencement** : titre et description uniques pour chaque type de page (accueil, produit avec son prix, catégorie, pages, recherche, panier, 404). Pour encore mieux faire, renseigne la section « Référencement » de chaque produit et de chaque page dans l'admin.
+- **Accessibilité** : contrastes vérifiés automatiquement sur toutes les pages, zones tactiles d'au moins 40 px, un seul titre principal par page, textes alternatifs sur toutes les images.
+- **Animations** : apparition douce au défilement, relief au survol, défilement fluide. Tout reste visible si le JavaScript échoue, et tout s'arrête si l'appareil demande moins d'animations.
+- **Cookies** : « Tout refuser » et « Tout accepter » ont exactement le même style.

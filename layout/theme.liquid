@@ -9,18 +9,52 @@
 
     {%- liquid
       assign shop_name = 'Noël Magique'
-      if template.name == 'index'
-        assign page_title_full = shop_name | append: ' | Des idées cadeaux qui font briller les yeux'
-      else
-        assign page_title_full = page_title | append: ' | ' | append: shop_name
-        if current_page != 1
-          assign page_title_full = page_title | append: ' | Page ' | append: current_page | append: ' | ' | append: shop_name
-        endif
+      assign t = page_title
+      assign d = page_description | strip_html | strip_newlines | strip
+      case template.name
+        when 'index'
+          assign t = 'Idées cadeaux de Noël originales'
+          assign d = 'Noël Magique : une petite sélection d’idées cadeaux de Noël originales. Paiement sécurisé, retours sous 14 jours, service client par e-mail.'
+        when 'product'
+          if d == blank
+            assign d = product.description | strip_html | strip_newlines | strip
+          endif
+          assign price_txt = product.price | money
+          assign d = d | truncate: 130 | append: ' ' | append: price_txt | append: ' TTC.'
+        when 'collection'
+          if d == blank
+            assign d = 'Découvre la catégorie ' | append: collection.title | append: ' de Noël Magique : des idées cadeaux originales pour Noël, à prix TTC, avec retours sous 14 jours.'
+          endif
+        when 'page'
+          if d == blank
+            assign d = page.content | strip_html | strip_newlines | strip
+            if d == blank
+              assign d = page.title | append: ' – Noël Magique, idées cadeaux de Noël.'
+            endif
+          endif
+        when 'search'
+          assign t = 'Recherche'
+          if search.terms != blank
+            assign t = 'Recherche : ' | append: search.terms
+          endif
+          assign d = 'Recherche une idée cadeau parmi la sélection de Noël Magique.'
+        when 'cart'
+          assign t = 'Ton panier'
+          assign d = 'Ton panier Noël Magique : vérifie tes idées cadeaux avant de commander.'
+        when '404'
+          assign t = 'Page introuvable'
+          assign d = 'Cette page n’existe pas ou a été déplacée. Retrouve toutes les idées cadeaux de Noël Magique.'
+        when 'list-collections'
+          assign t = 'Catalogue'
+          assign d = 'Le catalogue de Noël Magique : toutes nos catégories d’idées cadeaux de Noël.'
+      endcase
+      if d == blank
+        assign d = 'Noël Magique : des idées cadeaux originales pour Noël, choisies avec soin. Paiement sécurisé, retours sous 14 jours, service client par e-mail.'
       endif
-      if page_description != blank
-        assign meta_description = page_description | strip_html | strip_newlines | truncate: 158
-      else
-        assign meta_description = 'Noël Magique : des idées cadeaux originales pour Noël, choisies avec soin. Paiement sécurisé, retours sous 14 jours, service client par e-mail.'
+      assign meta_description = d | truncate: 158
+      assign page_title_full = t | append: ' | ' | append: shop_name
+      if current_page != 1
+        assign page_title_full = t | append: ' – Page ' | append: current_page | append: ' | ' | append: shop_name
       endif
     -%}
     <title>{{ page_title_full | escape }}</title>
@@ -38,6 +72,10 @@
 
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
+    {%- else -%}
+      <link rel="icon" type="image/svg+xml" href="{{ 'favicon.svg' | asset_url }}">
+      <link rel="icon" type="image/png" sizes="64x64" href="{{ 'favicon-64.png' | asset_url }}">
+      <link rel="apple-touch-icon" href="{{ 'apple-touch-icon.png' | asset_url }}">
     {%- endif -%}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
@@ -68,13 +106,15 @@
       {%- render 'cookie-banner' -%}
     {%- endif -%}
 
+    {%- capture gifts_url -%}{%- render 'gifts-url' -%}{%- endcapture -%}
     <script>
       window.NoelMagique = {
         routes: {
           cart: {{ routes.cart_url | json }},
           cartAdd: {{ routes.cart_add_url | append: '.js' | json }},
           cartChange: {{ routes.cart_change_url | append: '.js' | json }},
-          cartJs: {{ routes.cart_url | append: '.js' | json }}
+          cartJs: {{ routes.cart_url | append: '.js' | json }},
+          gifts: {{ gifts_url | strip | json }}
         },
         moneyFormat: {{ shop.money_format | json }}
       };

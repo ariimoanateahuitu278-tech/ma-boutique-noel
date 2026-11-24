@@ -13,6 +13,7 @@
   <section class="section">
     <div class="page-width">
       {%- if collection.products.size > 0 -%}
+        <h2 class="visually-hidden">Produits</h2>
         <ul class="product-grid" role="list">
           {%- for p in collection.products -%}
             <li>{%- if forloop.index <= 3 -%}{%- render 'product-card', card_product: p, loading: 'eager' -%}{%- else -%}{%- render 'product-card', card_product: p -%}{%- endif -%}</li>

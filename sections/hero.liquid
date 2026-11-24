@@ -8,6 +8,9 @@
     assign hero_image = hero_product.featured_image
   endif
   assign thumb_image = section.settings.thumb_image | default: hero_product.featured_image
+  capture gifts_url
+    render 'gifts-url'
+  endcapture
   assign has_video = false
   if section.settings.video != blank or section.settings.video_url != blank
     assign has_video = true
@@ -23,11 +26,11 @@
       <div class="hero__buttons">
         <span class="snow-btn">
           {%- render 'snowman' -%}
-          <a href="{{ section.settings.button_1_link | default: '/collections/idees-cadeaux' }}" class="btn btn--white btn--lg">{{ section.settings.button_1_label | escape }}</a>
+          <a href="{{ section.settings.button_1_link | default: gifts_url }}" class="btn btn--white btn--lg">{{ section.settings.button_1_label | escape }}</a>
         </span>
         <span class="snow-btn">
           {%- render 'snowman' -%}
-          <a href="{{ section.settings.button_2_link | default: '/collections/all?sort_by=created-descending' }}" class="btn btn--outline-light btn--lg">{{ section.settings.button_2_label | escape }}</a>
+          <a href="{{ section.settings.button_2_link | default: routes.all_products_collection_url | append: '?sort_by=created-descending' }}" class="btn btn--outline-light btn--lg">{{ section.settings.button_2_label | escape }}</a>
         </span>
       </div>
       <ul class="hero__pills">

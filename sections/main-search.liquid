@@ -15,6 +15,7 @@
       {%- paginate search.results by 24 -%}
         {%- if search.results_count > 0 -%}
           <p class="section-intro">{{ search.results_count }} résultat{% if search.results_count > 1 %}s{% endif %} pour « {{ search.terms | escape }} »</p>
+          <h2 class="visually-hidden">Résultats</h2>
           <ul class="product-grid" role="list">
             {%- for item in search.results -%}
               {%- if item.object_type == 'product' -%}<li>{%- render 'product-card', card_product: item -%}</li>{%- endif -%}
@@ -22,11 +23,11 @@
           </ul>
         {%- else -%}
           <p class="section-intro">Aucun résultat pour « {{ search.terms | escape }} ». Essaie un autre mot, ou découvre toutes nos idées cadeaux.</p>
-          <div class="help-links"><a href="{{ routes.collections_url }}/idees-cadeaux" class="btn btn--primary">Voir les idées cadeaux</a></div>
+          <div class="help-links"><a href="{%- render 'gifts-url' -%}" class="btn btn--primary">Voir les idées cadeaux</a></div>
         {%- endif -%}
       {%- endpaginate -%}
     {%- else -%}
-      <div class="help-links"><a href="{{ routes.collections_url }}/idees-cadeaux" class="btn btn--primary">Voir les idées cadeaux</a></div>
+      <div class="help-links"><a href="{%- render 'gifts-url' -%}" class="btn btn--primary">Voir les idées cadeaux</a></div>
     {%- endif -%}
   </div>
 </section>

@@ -17,9 +17,9 @@
           {%- endfor -%}
         {%- else -%}
           <li><a href="{{ routes.root_url }}"{% if template.name == 'index' %} aria-current="page"{% endif %}>Accueil</a></li>
-          <li><a href="{{ routes.collections_url }}/idees-cadeaux">Idées cadeaux</a></li>
-          <li><a href="/pages/livraison-et-retours">Livraison et retours</a></li>
-          <li><a href="/pages/contact">Contact</a></li>
+          <li><a href="{%- render 'gifts-url' -%}">Idées cadeaux</a></li>
+          <li><a href="{%- render 'page-url', handle: 'livraison-et-retours' -%}">Livraison et retours</a></li>
+          <li><a href="{%- render 'page-url', handle: 'contact' -%}">Contact</a></li>
         {%- endif -%}
       </ul>
     </nav>
@@ -53,9 +53,9 @@
           {%- endfor -%}
         {%- else -%}
           <li><a href="{{ routes.root_url }}">Accueil</a></li>
-          <li><a href="{{ routes.collections_url }}/idees-cadeaux">Idées cadeaux</a></li>
-          <li><a href="/pages/livraison-et-retours">Livraison et retours</a></li>
-          <li><a href="/pages/contact">Contact</a></li>
+          <li><a href="{%- render 'gifts-url' -%}">Idées cadeaux</a></li>
+          <li><a href="{%- render 'page-url', handle: 'livraison-et-retours' -%}">Livraison et retours</a></li>
+          <li><a href="{%- render 'page-url', handle: 'contact' -%}">Contact</a></li>
         {%- endif -%}
       </ul>
     </div>

@@ -25,7 +25,7 @@
       </form>
     {%- else -%}
       <p class="section-intro">Ton panier est vide pour l'instant.</p>
-      <div class="help-links"><a href="{{ routes.collections_url }}/idees-cadeaux" class="btn btn--primary">Découvrir la boutique</a></div>
+      <div class="help-links"><a href="{%- render 'gifts-url' -%}" class="btn btn--primary">Découvrir la boutique</a></div>
     {%- endif -%}
   </div>
 </section>

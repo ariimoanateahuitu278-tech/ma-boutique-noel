@@ -33,7 +33,9 @@
         <button type="submit" class="btn btn--primary btn--lg btn--block" style="margin-top:18px">Confirmer ma rétractation</button>
       {%- endform -%}
     </div>
-    <p style="margin-top:18px">Tu peux aussi nous écrire directement à : {{ settings.contact_email | default: '[À COMPLÉTER]' | escape }}</p>
+    {%- if settings.contact_email != blank and settings.contact_email contains '@' -%}
+      <p style="margin-top:18px">Tu peux aussi nous écrire directement à : <a href="mailto:{{ settings.contact_email | escape }}">{{ settings.contact_email | escape }}</a></p>
+    {%- endif -%}
   </div>
 </section>
 {% schema %}

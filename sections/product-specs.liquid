@@ -46,10 +46,10 @@
           {%- if has_delay -%}
             <p><strong>Livraison :</strong> {{ mf.delais_livraison.value | escape }}</p>
           {%- else -%}
-            <p><strong>Livraison :</strong> les délais de livraison vers la France sont détaillés sur notre page <a href="/pages/livraison-et-retours">Livraison et retours</a>.</p>
+            <p><strong>Livraison :</strong> les délais de livraison vers la France sont détaillés sur notre page <a href="{%- render 'page-url', handle: 'livraison-et-retours' -%}">Livraison et retours</a>.</p>
           {%- endif -%}
-          <p><strong>Retours :</strong> tu as 14 jours après réception pour changer d'avis. <a href="/pages/politique-de-retour">Voir la politique de retour</a>.</p>
-          <p><a href="/pages/retractation" class="withdraw-btn withdraw-btn--red">Se rétracter du contrat</a></p>
+          <p><strong>Retours :</strong> tu as 14 jours après réception pour changer d'avis. <a href="{%- render 'page-url', handle: 'politique-de-retour' -%}">Voir la politique de retour</a>.</p>
+          <p><a href="{%- render 'page-url', handle: 'retractation' -%}" class="withdraw-btn withdraw-btn--red">Se rétracter du contrat</a></p>
         </div>
       </details>
       <details class="accordion">

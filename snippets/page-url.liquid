@@ -1,0 +1,31 @@
+{%- comment -%}
+  Renvoie l'adresse d'une page de la boutique. Si la page n'a pas encore été créée,
+  renvoie la politique Shopify équivalente quand elle existe, pour ne jamais mener à une page vide.
+  Paramètre : handle
+{%- endcomment -%}
+{%- liquid
+  assign p = pages[handle]
+  assign url = blank
+  if p != blank and p.url != blank
+    assign url = p.url
+  else
+    case handle
+      when 'politique-de-retour'
+        assign url = shop.refund_policy.url
+      when 'politique-de-confidentialite'
+        assign url = shop.privacy_policy.url
+      when 'conditions-generales-de-vente'
+        assign url = shop.terms_of_service.url
+      when 'livraison-et-retours'
+        assign url = shop.shipping_policy.url
+      when 'mentions-legales'
+        assign url = shop.legal_notice.url
+      when 'contact'
+        assign url = shop.contact_information.url
+    endcase
+  endif
+  if url == blank
+    assign url = '/pages/' | append: handle
+  endif
+  echo url
+-%}

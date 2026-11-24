@@ -53,6 +53,9 @@
   }
 
   /* ---------- Apparition au défilement (le texte reste toujours visible en cas d'échec) ---------- */
+  // Les titres et blocs de contenu apparaissent en douceur (jamais le hero, toujours visible dès l'ouverture).
+  $$('.main .section-title, .main .section-intro, .main .faq, .main .specs, .main .help-links, .main .trust__item, .main .buyband__inner, .main .pbanner__content')
+    .forEach(function (el) { if (!el.closest('.hero') && !el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', ''); });
   var revealEls = $$('[data-reveal]');
   if (!reduceMotion && 'IntersectionObserver' in window && revealEls.length) {
     var io = new IntersectionObserver(function (entries) {
@@ -344,7 +347,7 @@
     $$('[data-cart-count]').forEach(function (el) { el.textContent = cart.item_count; el.hidden = cart.item_count === 0; });
     if (!items) return;
     if (!cart.item_count) {
-      items.innerHTML = '<div class="drawer__empty"><p><strong>Ton panier est vide pour l\'instant.</strong></p><p>Jette un œil à nos idées cadeaux !</p><a href="/collections/idees-cadeaux" class="btn btn--primary">Découvrir la boutique</a></div>';
+      items.innerHTML = '<div class="drawer__empty"><p><strong>Ton panier est vide pour l\'instant.</strong></p><p>Jette un œil à nos idées cadeaux !</p><a href="' + escapeHtml(NM.routes.gifts || '/collections/all') + '" class="btn btn--primary">Découvrir la boutique</a></div>';
       foot.hidden = true;
       return;
     }

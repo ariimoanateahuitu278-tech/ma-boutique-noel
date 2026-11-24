@@ -4,9 +4,9 @@
 {%- endcomment -%}
 <div class="cookie-banner" id="CookieBanner" role="dialog" aria-live="polite" aria-labelledby="CookieTitle">
   <h2 id="CookieTitle">Les cookies, on en parle ?</h2>
-  <p>On utilise des cookies indispensables au fonctionnement du site (panier, paiement). Avec ton accord, on en utilise aussi pour mesurer l'audience. Tu peux changer d'avis à tout moment. <a href="/pages/politique-de-confidentialite">En savoir plus</a></p>
+  <p>On utilise des cookies indispensables au fonctionnement du site (panier, paiement). Avec ton accord, on en utilise aussi pour mesurer l'audience. Tu peux changer d'avis à tout moment. <a href="{%- render 'page-url', handle: 'politique-de-confidentialite' -%}">En savoir plus</a></p>
   <div class="cookie-banner__actions">
-    <button type="button" class="btn btn--outline" data-cookie="decline">Refuser</button>
-    <button type="button" class="btn btn--outline" data-cookie="accept">Accepter</button>
+    <button type="button" class="btn btn--outline" data-cookie="decline">Tout refuser</button>
+    <button type="button" class="btn btn--outline" data-cookie="accept">Tout accepter</button>
   </div>
 </div>

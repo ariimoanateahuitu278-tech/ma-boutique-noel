@@ -10,7 +10,7 @@
   {
     "name": "Boutique",
     "settings": [
-      { "type": "text", "id": "contact_email", "label": "E-mail de contact affiché", "default": "[À COMPLÉTER]" },
+      { "type": "text", "id": "contact_email", "label": "E-mail de contact affiché", "info": "Ton e-mail de service client. Il s'affiche sur les pages Contact et Rétractation." },
       { "type": "text", "id": "free_shipping_text", "label": "Argument livraison (laisser vide si la livraison n'est pas offerte)", "default": "Livraison offerte", "info": "N'écris « Livraison offerte » que si la livraison est réglée à 0 € dans Paramètres > Expédition et livraison." },
       { "type": "text", "id": "tax_label", "label": "Mention à côté du prix", "default": "TTC" },
       { "type": "text", "id": "payment_means", "label": "Moyens de paiement acceptés (séparés par des virgules)", "default": "Carte bancaire" },
